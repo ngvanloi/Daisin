@@ -1,10 +1,12 @@
 using RepositoryLayer.Extensions;
+using ServiceLayer.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.LoadRepositoryLayerExtensions(builder.Configuration);
+builder.Services.LoadServiceLayerExtensions();
 
 var app = builder.Build();
 

@@ -27,12 +27,12 @@ namespace RepositoryLayer.Repositories.Concrete
 			await _dbSet.AddAsync(entity);
 		}
 
-		public void Update(T entity)
+		public void UpdateEntity(T entity)
 		{
 			_dbSet.Update(entity);
 		}
 
-		public void Delete(T entity)
+		public void DeleteEntity(T entity)
 		{
 			_dbSet.Remove(entity);
 		}

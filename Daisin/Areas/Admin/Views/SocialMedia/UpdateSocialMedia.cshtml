@@ -1,0 +1,32 @@
+﻿@model SocialMediaUpdateVM;
+@{
+    ViewData["Title"] = "UpdateSocialMedia";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<h5 class="card-title">Update Social Media</h5>
+
+<nav>
+	<ol class="breadcrumb">
+		<li class="breadcrumb-item"><a asp-area="Admin" asp-controller="Dashboard" asp-action="Index">Dashboard</a></li>
+		<li class="breadcrumb-item"><a asp-area="Admin" asp-controller="SocialMedia" asp-action="GetSocialMediaList">Social Media</a></li>
+		<li class="breadcrumb-item active">Update</li>
+	</ol>
+</nav>
+<div class="card">
+	<div class="card-body">
+		<form asp-area="Admin" asp-controller="SocialMedia" asp-action="UpdateSocialMedia" method="post" class="row g-3">
+			<input asp-for="Id" type="hidden" />
+			<input asp-for="RowVersion" type="hidden" />
+
+			<partial name="UpdateSocialMediaPartialView/_SocialMediaView" />
+
+			<div class="text-center">
+				<button type="submit" class="btn btn-primary">Submit</button>
+				<button type="reset" class="btn btn-secondary">Reset</button>
+			</div>
+		</form>
+
+	</div>
+</div>
+

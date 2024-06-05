@@ -1,0 +1,30 @@
+﻿@model SocialMediaAddVM;
+@{
+    ViewData["Title"] = "AddSocialMedia";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<h5 class="card-title">Add New Social Media</h5>
+
+<nav>
+	<ol class="breadcrumb">
+		<li class="breadcrumb-item"><a asp-area="Admin" asp-controller="Dashboard" asp-action="Index">Dashboard</a></li>
+		<li class="breadcrumb-item"><a asp-area="Admin" asp-controller="SocialMedia" asp-action="GetSocialMediaList">Social Media</a></li>
+		<li class="breadcrumb-item active">Add</li>
+	</ol>
+</nav>
+<div class="card">
+	<div class="card-body">
+		<form asp-area="Admin" asp-controller="SocialMedia" asp-action="AddSocialMedia" method="post" class="row g-3" >
+
+			<partial name="AddSocialMediaPartialView/_SocialMediaView" />
+
+			<div class="text-center">
+				<button type="submit" class="btn btn-primary">Submit</button>
+				<button type="reset" class="btn btn-secondary">Reset</button>
+			</div>
+		</form>
+
+	</div>
+</div>
+

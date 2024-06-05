@@ -2,5 +2,4 @@
 bin
 Debug
 obj
-Daisin/wwwroot/lib
-
+Daisin/wwwroot

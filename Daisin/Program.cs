@@ -29,4 +29,15 @@ app.MapControllerRoute(
 	name: "default",
 	pattern: "{controller=Home}/{action=Index}/{id?}");
 
+#pragma warning disable ASP0014
+app.UseEndpoints(ep =>
+{
+	ep.MapAreaControllerRoute(
+		name: "Admin",
+		areaName: "Admin",
+		pattern: "Admin/{controller=Dashboard}/{action=Index}/{id?}");
+	ep.MapControllerRoute(
+		name: "default",
+		pattern: "{controller=Home}/{action=index}/{id?}");
+});
 app.Run();

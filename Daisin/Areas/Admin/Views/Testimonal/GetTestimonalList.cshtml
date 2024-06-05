@@ -1,0 +1,60 @@
+﻿@model List<TestimonalListVM>;
+@{
+    ViewData["Title"] = "GetTestimonalList";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<h5 class="card-title">Testimonal</h5>
+
+<nav>
+	<ol class="breadcrumb">
+		<li class="breadcrumb-item"><a asp-area="Admin" asp-category="Dashboard" asp-action="Index">Dashboard</a></li>
+		<li class="breadcrumb-item active">Testimonals</li>
+	</ol>
+</nav>
+
+<div class="card">
+	<div class="card-body">
+
+		<table class="table table-hover">
+			<thead>
+				<tr>
+					<th scope="col">FullName</th>
+					<th scope="col">Title</th>
+					<th scope="col">Created Date</th>
+					<th scope="col">Updated Date</th>
+					<th scope="col">Edit</th>
+					<th scope="col">Delete</th>
+				</tr>
+			</thead>
+			<tbody>
+				@foreach (var item in Model)
+				{
+					<tr>
+						<td>@item.FullName</td>
+						<td>@item.Title</td>
+						<td>@item.CreatedDate</td>
+						<td>@item.UpdatedDate</td>
+						<td>
+							<a asp-area="Admin" asp-category="Testimonal" asp-action="UpdateTestimonal" asp-route-id="@item.Id"
+							   data-id="@item.Id" class="btn btn-info btn-sm">
+								Edit
+							</a>
+						</td>
+						<td>
+							<a asp-area="Admin" asp-category="Testimonal" asp-action="DeleteTestimonal" asp-route-id="@item.Id"
+							   data-id="@item.Id" class="btn btn-danger btn-sm">
+								Delete
+							</a>
+						</td>
+					</tr>
+				}
+			</tbody>
+		</table>
+
+	</div>
+</div>
+<a asp-area="Admin" asp-controller="Testimonal" asp-action="AddTestimonal" class="btn btn-success btn-sm">
+	Add Testimonal
+</a>
+

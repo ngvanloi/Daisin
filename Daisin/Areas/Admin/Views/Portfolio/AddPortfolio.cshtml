@@ -1,18 +1,28 @@
 ﻿@model PortfolioAddVM;
 @{
-    ViewData["Title"] = "AddPortfolio";
-    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+	ViewData["Title"] = "AddPortfolio";
+	Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
 
-<h5 class="card-title">Add New Portfolio</h5>
+<div class="card">
+	<img src="~/Admin/assets/img/card.jpg" class="card-img-top" alt="card image" />
+	<div class="card-body">
+		<h5 class="card-title">Card with an image on top</h5>
+		<p class="card-text">Some quick example Some quick example Some quick example Some quick example Some quick example.</p>
+	</div>
+</div>
 
-<nav>
-	<ol class="breadcrumb">
-		<li class="breadcrumb-item"><a asp-area="Admin" asp-controller="Dashboard" asp-action="Index">Dashboard</a></li>
-		<li class="breadcrumb-item"><a asp-area="Admin" asp-controller="Portfolio" asp-action="GetPortfolioList">Portfolio</a></li>
-		<li class="breadcrumb-item active">Add</li>
-	</ol>
-</nav>
+<div>
+	<h5 class="card-title">Add New Portfolio</h5>
+
+	<nav>
+		<ol class="breadcrumb">
+			<li class="breadcrumb-item"><a asp-area="Admin" asp-controller="Dashboard" asp-action="Index">Dashboard</a></li>
+			<li class="breadcrumb-item"><a asp-area="Admin" asp-controller="Portfolio" asp-action="GetPortfolioList">Portfolio</a></li>
+			<li class="breadcrumb-item active">Add</li>
+		</ol>
+	</nav>
+</div>
 <div class="card">
 	<div class="card-body">
 		<form asp-area="Admin" asp-controller="Portfolio" asp-action="AddPortfolio" method="post" class="row g-3" enctype="multipart/form-data">

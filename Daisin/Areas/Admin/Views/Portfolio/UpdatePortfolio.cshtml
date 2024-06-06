@@ -1,18 +1,25 @@
 ﻿@model PortfolioUpdateVM;
 @{
-    ViewData["Title"] = "UpdatePortfolio";
-    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+	ViewData["Title"] = "UpdatePortfolio";
+	Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
 
-<h5 class="card-title">Update Portfolio</h5>
+<div>
+	<h5 class="card-title">Update Portfolio</h5>
 
-<nav>
-	<ol class="breadcrumb">
-		<li class="breadcrumb-item"><a asp-area="Admin" asp-controller="Dashboard" asp-action="Index">Dashboard</a></li>
-		<li class="breadcrumb-item"><a asp-area="Admin" asp-controller="Portfolio" asp-action="GetPortfolioList">Portfolio</a></li>
-		<li class="breadcrumb-item active">Update</li>
-	</ol>
-</nav>
+	<nav>
+		<ol class="breadcrumb">
+			<li class="breadcrumb-item"><a asp-area="Admin" asp-controller="Dashboard" asp-action="Index">Dashboard</a></li>
+			<li class="breadcrumb-item"><a asp-area="Admin" asp-controller="Portfolio" asp-action="GetPortfolioList">Portfolio</a></li>
+			<li class="breadcrumb-item active">Update</li>
+		</ol>
+	</nav>
+</div>
+
+<div class="card">
+	<img src="~/Admin/assets/img/card.jpg" class="card-img-top" alt="card image" />
+</div>
+
 <div class="card">
 	<div class="card-body">
 		<form asp-area="Admin" asp-controller="Portfolio" asp-action="UpdatePortfolio" method="post" class="row g-3" enctype="multipart/form-data">

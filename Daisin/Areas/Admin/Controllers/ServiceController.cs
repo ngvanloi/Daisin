@@ -1,18 +1,24 @@
-﻿using EntityLayer.WebApplication.ViewModels.ServiceVM;
+﻿using EntityLayer.WebApplication.ViewModels.AboutVM;
+using EntityLayer.WebApplication.ViewModels.ServiceVM;
+using FluentValidation;
+using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Mvc;
 using ServiceLayer.Services.WebApplication.Abstract;
 
 namespace Daisin.Areas.Admin.Controllers
 {
-    [Area("Admin")]
+	[Area("Admin")]
 	[Route("Admin/Service")]
 	public class ServiceController : Controller
 	{
 		private readonly IServiceService _serviceService;
-
-		public ServiceController(IServiceService serviceService)
+		private readonly IValidator<ServiceAddVM> _addValidator;
+		private readonly IValidator<ServiceUpdateVM> _updateValidator;
+		public ServiceController(IServiceService serviceService, IValidator<ServiceAddVM> addValidator, IValidator<ServiceUpdateVM> updateValidator)
 		{
 			_serviceService = serviceService;
+			_addValidator = addValidator;
+			_updateValidator = updateValidator;
 		}
 		[HttpGet("GetServiceList")]
 		public async Task<IActionResult> GetServiceList()
@@ -29,8 +35,14 @@ namespace Daisin.Areas.Admin.Controllers
 		[HttpPost("AddService")]
 		public async Task<IActionResult> AddService(ServiceAddVM request)
 		{
-			await _serviceService.AddServiceAsync(request);
-			return RedirectToAction("GetServiceList", "Service", new { Areas = ("Admin") });
+			var validation = await _addValidator.ValidateAsync(request);
+			if (validation.IsValid)
+			{
+				await _serviceService.AddServiceAsync(request);
+				return RedirectToAction("GetServiceList", "Service", new { Areas = ("Admin") });
+			}
+			validation.AddToModelState(this.ModelState);
+			return View();
 		}
 
 		[HttpGet("UpdateService")]
@@ -42,8 +54,14 @@ namespace Daisin.Areas.Admin.Controllers
 		[HttpPost("UpdateService")]
 		public async Task<IActionResult> UpdateService(ServiceUpdateVM request)
 		{
-			await _serviceService.UpdateServiceAsync(request);
-			return RedirectToAction("GetServiceList", "Service", new { Areas = ("Admin") });
+			var validation = await _updateValidator.ValidateAsync(request);
+			if (validation.IsValid)
+			{
+				await _serviceService.UpdateServiceAsync(request);
+				return RedirectToAction("GetServiceList", "Service", new { Areas = ("Admin") });
+			}
+			validation.AddToModelState(this.ModelState);
+			return View();
 		}
 
 		[HttpGet("Delete/{id}")]

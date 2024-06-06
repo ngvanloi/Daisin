@@ -1,18 +1,24 @@
 ﻿using EntityLayer.WebApplication.ViewModels.CategoryVM;
+using FluentValidation;
+using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Mvc;
 using ServiceLayer.Services.WebApplication.Abstract;
 
 namespace Daisin.Areas.Admin.Controllers
 {
-    [Area("Admin")]
+	[Area("Admin")]
 	[Route("Admin/Category")]
 	public class CategoryController : Controller
 	{
 		private readonly ICategoryService _categoryService;
+		private readonly IValidator<CategoryAddVM> _addValidator;
+		private readonly IValidator<CategoryUpdateVM> _updateValidator;
 
-		public CategoryController(ICategoryService categoryService)
+		public CategoryController(ICategoryService categoryService, IValidator<CategoryAddVM> addValidator, IValidator<CategoryUpdateVM> updateValidator)
 		{
 			_categoryService = categoryService;
+			_addValidator = addValidator;
+			_updateValidator = updateValidator;
 		}
 		[HttpGet("GetCategoryList")]
 		public async Task<IActionResult> GetCategoryList()
@@ -29,8 +35,14 @@ namespace Daisin.Areas.Admin.Controllers
 		[HttpPost("AddCategory")]
 		public async Task<IActionResult> AddCategory(CategoryAddVM request)
 		{
-			await _categoryService.AddCategoryAsync(request);
-			return RedirectToAction("GetCategoryList", "Category", new { Areas = ("Admin") });
+			var validation = await _addValidator.ValidateAsync(request);
+			if (validation.IsValid)
+			{
+				await _categoryService.AddCategoryAsync(request);
+				return RedirectToAction("GetCategoryList", "Category", new { Areas = ("Admin") });
+			}
+			validation.AddToModelState(this.ModelState);
+			return View();
 		}
 
 		[HttpGet("UpdateCategory")]
@@ -42,8 +54,15 @@ namespace Daisin.Areas.Admin.Controllers
 		[HttpPost("UpdateCategory")]
 		public async Task<IActionResult> UpdateCategory(CategoryUpdateVM request)
 		{
-			await _categoryService.UpdateCategoryAsync(request);
-			return RedirectToAction("GetCategoryList", "Category", new { Areas = ("Admin") });
+
+			var validation = await _updateValidator.ValidateAsync(request);
+			if (validation.IsValid)
+			{
+				await _categoryService.UpdateCategoryAsync(request);
+				return RedirectToAction("GetCategoryList", "Category", new { Areas = ("Admin") });
+			}
+			validation.AddToModelState(this.ModelState);
+			return View();
 		}
 
 		[HttpGet("Delete/{id}")]

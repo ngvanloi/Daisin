@@ -1,18 +1,25 @@
-﻿using EntityLayer.WebApplication.ViewModels.PortfolioVM;
+﻿using EntityLayer.WebApplication.ViewModels.AboutVM;
+using EntityLayer.WebApplication.ViewModels.PortfolioVM;
+using FluentValidation;
+using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Mvc;
 using ServiceLayer.Services.WebApplication.Abstract;
 
 namespace Daisin.Areas.Admin.Controllers
 {
-    [Area("Admin")]
+	[Area("Admin")]
 	[Route("Admin/Portfolio")]
 	public class PortfolioController : Controller
 	{
 		private readonly IPortfolioService _portfolioService;
+		private readonly IValidator<PortfolioAddVM> _addValidator;
+		private readonly IValidator<PortfolioUpdateVM> _updateValidator;
 
-		public PortfolioController(IPortfolioService portfolioService)
+		public PortfolioController(IPortfolioService portfolioService, IValidator<PortfolioAddVM> addValidator, IValidator<PortfolioUpdateVM> updateValidator)
 		{
 			_portfolioService = portfolioService;
+			_addValidator = addValidator;
+			_updateValidator = updateValidator;
 		}
 		[HttpGet("GetPortfolioList")]
 		public async Task<IActionResult> GetPortfolioList()
@@ -29,21 +36,34 @@ namespace Daisin.Areas.Admin.Controllers
 		[HttpPost("AddPortfolio")]
 		public async Task<IActionResult> AddPortfolio(PortfolioAddVM request)
 		{
-			await _portfolioService.AddPortfolioAsync(request);
-			return RedirectToAction("GetPortfolioList", "Portfolio", new { Areas = ("Admin") });
+			var validation = await _addValidator.ValidateAsync(request);
+			if (validation.IsValid)
+			{
+				await _portfolioService.AddPortfolioAsync(request);
+				return RedirectToAction("GetPortfolioList", "Portfolio", new { Areas = ("Admin") });
+			}
+			validation.AddToModelState(this.ModelState);
+			return View();
 		}
 
 		[HttpGet("UpdatePortfolio")]
 		public async Task<IActionResult> UpdatePortfolio(int id)
 		{
+
 			var portfolio = await _portfolioService.GetPortfolioById(id);
 			return View(portfolio);
 		}
 		[HttpPost("UpdatePortfolio")]
 		public async Task<IActionResult> UpdatePortfolio(PortfolioUpdateVM request)
 		{
-			await _portfolioService.UpdatePortfolioAsync(request);
-			return RedirectToAction("GetPortfolioList", "Portfolio", new { Areas = ("Admin") });
+			var validation = await _updateValidator.ValidateAsync(request);
+			if (validation.IsValid)
+			{
+				await _portfolioService.UpdatePortfolioAsync(request);
+				return RedirectToAction("GetPortfolioList", "Portfolio", new { Areas = ("Admin") });
+			}
+			validation.AddToModelState(this.ModelState);
+			return View();
 		}
 
 		[HttpGet("Delete/{id}")]

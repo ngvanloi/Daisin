@@ -18,7 +18,10 @@ namespace RepositoryLayer.Configuration.WebApplication
 
             builder.Property(x => x.RowVersion).IsRowVersion();
 
-            builder.Property(x => x.Header).IsRequired().HasMaxLength(200);
+			builder.Property(x => x.FileName).IsRequired();
+			builder.Property(x => x.FileType).IsRequired();
+
+			builder.Property(x => x.Header).IsRequired().HasMaxLength(200);
             builder.Property(x => x.Description).IsRequired().HasMaxLength(2000);
             builder.Property(x => x.Clients).IsRequired().HasMaxLength(5);
             builder.Property(x => x.Project).IsRequired().HasMaxLength(5);

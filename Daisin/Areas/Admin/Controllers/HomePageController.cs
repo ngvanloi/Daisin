@@ -1,10 +1,10 @@
 ﻿using EntityLayer.WebApplication.ViewModels.HomePageVM;
 using Microsoft.AspNetCore.Mvc;
-using ServiceLayer.Services.Abstract;
+using ServiceLayer.Services.WebApplication.Abstract;
 
 namespace Daisin.Areas.Admin.Controllers
 {
-	[Area("Admin")]
+    [Area("Admin")]
 	[Route("Admin/HomePage")]
 	public class HomePageController : Controller
 	{

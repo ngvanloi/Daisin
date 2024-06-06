@@ -1,6 +1,6 @@
 ﻿using EntityLayer.WebApplication.ViewModels.AboutVM;
 using Microsoft.AspNetCore.Mvc;
-using ServiceLayer.Services.Abstract;
+using ServiceLayer.Services.WebApplication.Abstract;
 using System.Runtime.CompilerServices;
 
 namespace Daisin.Areas.Admin.Controllers

@@ -1,6 +1,6 @@
 ﻿using EntityLayer.WebApplication.ViewModels.TestimonalVM;
 using Microsoft.AspNetCore.Mvc;
-using ServiceLayer.Services.Abstract;
+using ServiceLayer.Services.WebApplication.Abstract;
 
 namespace Daisin.Areas.Admin.Controllers
 {

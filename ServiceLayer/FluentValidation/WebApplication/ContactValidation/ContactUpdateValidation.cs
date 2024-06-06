@@ -16,7 +16,7 @@ namespace ServiceLayer.FluentValidation.WebApplication.ContactValidation
 			RuleFor(x => x.Location)
 				.NotEmpty().WithMessage(ValidationMessage.NullEmptyMessage("Location"))
 				.NotNull().WithMessage(ValidationMessage.NullEmptyMessage("Location"))
-				.MaximumLength(200).WithMessage(ValidationMessage.MaximumCharacterAllance("Location", 200))
+				.MaximumLength(200).WithMessage(ValidationMessage.MaximumCharacterAllance("Location", 200));
 			RuleFor(x => x.Email)
 				.NotEmpty().WithMessage(ValidationMessage.NullEmptyMessage("Email"))
 				.NotNull().WithMessage(ValidationMessage.NullEmptyMessage("Email"))
@@ -24,7 +24,7 @@ namespace ServiceLayer.FluentValidation.WebApplication.ContactValidation
 			RuleFor(x => x.Call)
 				.NotEmpty().WithMessage(ValidationMessage.NullEmptyMessage("Call"))
 				.NotNull().WithMessage(ValidationMessage.NullEmptyMessage("Call"))
-				.MaximumLength(17).WithMessage(ValidationMessage.MaximumCharacterAllance("Call", 17);
+				.MaximumLength(17).WithMessage(ValidationMessage.MaximumCharacterAllance("Call", 17));
 			RuleFor(x => x.Map)
 				.NotEmpty().WithMessage(ValidationMessage.NullEmptyMessage("Map"))
 				.NotNull().WithMessage(ValidationMessage.NullEmptyMessage("Map"));

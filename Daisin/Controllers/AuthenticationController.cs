@@ -5,8 +5,8 @@ using FluentValidation;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
-using ServiceLayer.Helpes.Identity;
+using ServiceLayer.Helpes.Identity.EmailHelper;
+using ServiceLayer.Helpes.Identity.ModelStateHelper;
 
 namespace Daisin.Controllers
 {
@@ -16,20 +16,26 @@ namespace Daisin.Controllers
 		private readonly SignInManager<AppUser> _signInManager;
 		private readonly IValidator<SignUpVM> _signUpValidator;
 		private readonly IValidator<LogInVM> _logInValidator;
+		private readonly IValidator<ForgotPasswordVM> _forgotPasswordValidator;
 		private readonly IMapper _iMapper;
+		private readonly IEmailSendMethod _emailSendMethod;
 
 		public AuthenticationController(
 			UserManager<AppUser> userManager,
 			IValidator<SignUpVM> signUpValidator,
 			IMapper iMapper,
 			IValidator<LogInVM> logInValidator,
-			SignInManager<AppUser> signInManager)
+			SignInManager<AppUser> signInManager,
+			IValidator<ForgotPasswordVM> forgotPasswordValidator,
+			IEmailSendMethod emailSendMethod)
 		{
 			_userManager = userManager;
 			_signUpValidator = signUpValidator;
 			_iMapper = iMapper;
 			_logInValidator = logInValidator;
 			_signInManager = signInManager;
+			_forgotPasswordValidator = forgotPasswordValidator;
+			_emailSendMethod = emailSendMethod;
 		}
 
 		[HttpGet]
@@ -100,6 +106,42 @@ namespace Daisin.Controllers
 				return View();
 			}
 			return RedirectToAction("Login", "Authentication");
+		}
+
+		[HttpGet]
+		public IActionResult ForgotPassword()
+		{
+			return View();
+		}
+
+		[HttpPost]
+		public async Task<IActionResult> ForgotPassword(ForgotPasswordVM request)
+		{
+			var validation = await _forgotPasswordValidator.ValidateAsync(request);
+			if (!validation.IsValid)
+			{
+				validation.AddToModelState(this.ModelState);
+				return View();
+			}
+
+			var hasUser = await _userManager.FindByEmailAsync(request.Email);
+			if (hasUser == null)
+			{
+				ViewBag.Result = "UserDoesNotExist";
+				ModelState.AddModelErrorList(new List<string> { "User does not exist!" });
+				return View();
+			}
+
+			string resetToken = await _userManager.GeneratePasswordResetTokenAsync(hasUser);
+			var passwordResetLink = Url.Action("ResetPassword", "Authentication", new
+			{ 
+				UserId = hasUser.Id,
+				Token = resetToken,
+				HttpContext.Request.Scheme
+			});
+
+			await _emailSendMethod.SendResetPasswordLinkWithToken(passwordResetLink!, hasUser.Email!);
+			return RedirectToAction("LogIn", "Authentication");
 		}
 	}
 }

@@ -21,7 +21,7 @@ namespace ServiceLayer.Extensions.Identity
 				opt.Password.RequireNonAlphanumeric = true;
 				opt.Password.RequireUppercase = true;
 				opt.Password.RequiredUniqueChars = 2;
-				opt.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(3);
+				opt.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromSeconds(30);
 				opt.Lockout.MaxFailedAccessAttempts = 3;
 			})
 				.AddRoleManager<RoleManager<AppRole>>()

@@ -1,10 +1,12 @@
 ﻿using EntityLayer.WebApplication.ViewModels.SocialMediaVM;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ServiceLayer.Services.WebApplication.Abstract;
 
 namespace Daisin.Areas.Admin.Controllers
 {
-    [Area("Admin")]
+	[Authorize]
+	[Area("Admin")]
 	[Route("Admin/SocialMedia")]
 	public class SocialMediaController : Controller
 	{

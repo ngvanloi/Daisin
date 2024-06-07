@@ -2,11 +2,13 @@
 using EntityLayer.WebApplication.ViewModels.ContactVM;
 using FluentValidation;
 using FluentValidation.AspNetCore;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ServiceLayer.Services.WebApplication.Abstract;
 
 namespace Daisin.Areas.Admin.Controllers
 {
+	[Authorize]
 	[Area("Admin")]
 	[Route("Admin/Contact")]
 	public class ContactController : Controller

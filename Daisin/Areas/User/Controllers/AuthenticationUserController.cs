@@ -36,7 +36,7 @@ namespace Daisin.Areas.User.Controllers
 			return View(userEditVm);
 		}
 
-		[HttpPost]
+		[HttpPost("UserEdit")]
 		public async Task<IActionResult> UserEdit(UserEditVM request)
 		{
 			var user = await _userManager.FindByNameAsync(User.Identity!.Name!);

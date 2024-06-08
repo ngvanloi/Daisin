@@ -25,7 +25,7 @@ namespace ServiceLayer.FluentValidation.Identity
                 .NotEmpty().WithMessage(ValidationMessage.NullEmptyMessage("Password"))
                 .NotNull().WithMessage(ValidationMessage.NullEmptyMessage("Password"));
             RuleFor(x => x.ConfirmNewPassword)
-                .Equal(x => x.Password).WithMessage(IdentityMessage.ComparePassword());
+                .Equal(x => x.NewPassword).WithMessage(IdentityMessage.ComparePassword());
         }
     }
 }

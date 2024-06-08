@@ -1,7 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Daisin.Areas.User.Controllers
 {
+	[Authorize]
 	[Area("User")]
 	[Route("User/Dashboard")]
 	public class DashboardController : Controller

@@ -111,6 +111,8 @@ namespace Daisin.Areas.User.Controllers
 				await _signInManager.SignInAsync(user, false);
 			}
 
+			ViewBag.Username = user.UserName;
+
 			return View();
 		}
 	}

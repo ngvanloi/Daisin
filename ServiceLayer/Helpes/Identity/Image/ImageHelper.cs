@@ -24,7 +24,7 @@ namespace ServiceLayer.Helpes.Identity.Image
 		public ImageHelper(IHostEnvironment hostEnvironment)
 		{
 			_hostEnvironment = hostEnvironment;
-			wwwRoot = _hostEnvironment.ContentRootPath + "wwwroot/";
+			wwwRoot = _hostEnvironment.ContentRootPath + "/wwwroot/";
 		}
 
 		public async Task<ImageUploadModel> ImageUpload(IFormFile imageFile, ImageType imageType, string? folderName)
@@ -56,7 +56,7 @@ namespace ServiceLayer.Helpes.Identity.Image
 				Directory.CreateDirectory($"{wwwRoot}/{imageFolder}/{folderName}");
 			}
 
-			string fileExtension = Path.GetExtension(imageFile.Name).ToLower();
+			string fileExtension = Path.GetExtension(imageFile.FileName).ToLower();
 			if (fileExtension != ".jpg" && fileExtension != ".jpeg")
 			{
 				return new ImageUploadModel { Error = "Please only upload JPG or JPEG files" };

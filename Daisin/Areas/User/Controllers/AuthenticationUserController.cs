@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using CoreLayer.Enumerators;
 using EntityLayer.Identity.Entities;
 using EntityLayer.Identity.ViewModels;
 using FluentValidation;
@@ -6,6 +7,7 @@ using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using ServiceLayer.Helpes.Identity.Image;
 using ServiceLayer.Helpes.Identity.ModelStateHelper;
 
 namespace Daisin.Areas.User.Controllers
@@ -19,13 +21,15 @@ namespace Daisin.Areas.User.Controllers
 		private readonly IMapper _mapper;
 		private readonly IValidator<UserEditVM> _validator;
 		private readonly SignInManager<AppUser> _signInManager;
+		private readonly IImageHelper _imageHelper;
 
-		public AuthenticationUserController(UserManager<AppUser> userManager, IMapper mapper, IValidator<UserEditVM> validator, SignInManager<AppUser> signInManager)
+		public AuthenticationUserController(UserManager<AppUser> userManager, IMapper mapper, IValidator<UserEditVM> validator, SignInManager<AppUser> signInManager, IImageHelper imageHelper)
 		{
 			_userManager = userManager;
 			_mapper = mapper;
 			_validator = validator;
 			_signInManager = signInManager;
+			_imageHelper = imageHelper;
 		}
 
 		[HttpGet("UserEdit")]
@@ -53,7 +57,7 @@ namespace Daisin.Areas.User.Controllers
 			{
 				ViewBag.Result = "FailedPassword";
 				ModelState.AddModelErrorList(new List<string> { "Wrong Password!" });
-				return View();
+				return Redirect(nameof(UserEdit));
 			}
 
 			if (request.NewPassword != null)
@@ -63,15 +67,28 @@ namespace Daisin.Areas.User.Controllers
 				{
 					ViewBag.Result = "NewPasswordFailure";
 					ModelState.AddModelErrorList(passwordChange.Errors);
+					return Redirect(nameof(UserEdit));
 				}
 			}
 
-			var oldFilename = user.FileName;
-			var oldFiletype = user.FileType;
+			var oldFilename = user!.FileName;
+			var oldFiletype = user!.FileType;
 			if (request.Photo != null)
 			{
-				request.FileName = DateTime.Now.ToString();
-				request.FileType = DateTime.Now.ToString();
+				var image = await _imageHelper.ImageUpload(request.Photo, ImageType.identity, null);
+				if (image.Error != null)
+				{
+					if (request.NewPassword != null)
+					{
+						await _userManager.ChangePasswordAsync(user, request.NewPassword, request.Password);
+						await _userManager.UpdateSecurityStampAsync(user);
+						await _signInManager.SignOutAsync();
+						await _signInManager.SignInAsync(user, false);
+					}
+					return Redirect(nameof(UserEdit));
+				}
+				request.FileName = image.FileName;
+				request.FileType = request.Photo.ContentType;
 			}
 			else
 			{
@@ -79,16 +96,16 @@ namespace Daisin.Areas.User.Controllers
 				request.FileType = oldFiletype;
 			}
 
-			var mappedUSer = _mapper.Map(request, user);
-			var userUpdate = await _userManager.UpdateAsync(mappedUSer);
-			userUpdate.Succeeded.Equals(false);
+			var mappedUser = _mapper.Map<AppUser>(request);
+			var userUpdate = await _userManager.UpdateAsync(mappedUser);
+
 			if (userUpdate.Succeeded)
 			{
 				if (request.Photo != null)
 				{
 					if (oldFilename != null)
 					{
-						//delete image method
+						_imageHelper.DeleteImage(oldFilename);
 					}
 				}
 
@@ -100,7 +117,7 @@ namespace Daisin.Areas.User.Controllers
 
 			if (request.FileName != null)
 			{
-				//image delete
+				_imageHelper.DeleteImage(request.FileName);
 			}
 
 			if (request.NewPassword != null)
@@ -113,7 +130,7 @@ namespace Daisin.Areas.User.Controllers
 
 			ViewBag.Username = user.UserName;
 
-			return View();
+			return Redirect(nameof(UserEdit));
 		}
 	}
 }

@@ -5,9 +5,9 @@ using FluentValidation;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using ServiceLayer.Helpes.Identity.EmailHelper;
 using ServiceLayer.Helpes.Identity.ModelStateHelper;
+using ServiceLayer.Services.Identity.Abstract;
 
 namespace Daisin.Controllers
 {
@@ -20,7 +20,7 @@ namespace Daisin.Controllers
 		private readonly IValidator<ForgotPasswordVM> _forgotPasswordValidator;
 		private readonly IValidator<ResetPasswordVM> _resetPasswordValidator;
 		private readonly IMapper _iMapper;
-		private readonly IEmailSendMethod _emailSendMethod;
+		private readonly IAuthenticationCustomService _authCustomService;
 
 		public AuthenticationController(
 			UserManager<AppUser> userManager,
@@ -29,8 +29,8 @@ namespace Daisin.Controllers
 			IValidator<LogInVM> logInValidator,
 			SignInManager<AppUser> signInManager,
 			IValidator<ForgotPasswordVM> forgotPasswordValidator,
-			IEmailSendMethod emailSendMethod,
-			IValidator<ResetPasswordVM> resetPasswordValidator)
+			IValidator<ResetPasswordVM> resetPasswordValidator,
+			IAuthenticationCustomService authCustomService)
 		{
 			_userManager = userManager;
 			_signUpValidator = signUpValidator;
@@ -38,8 +38,8 @@ namespace Daisin.Controllers
 			_logInValidator = logInValidator;
 			_signInManager = signInManager;
 			_forgotPasswordValidator = forgotPasswordValidator;
-			_emailSendMethod = emailSendMethod;
 			_resetPasswordValidator = resetPasswordValidator;
+			_authCustomService = authCustomService;
 		}
 
 		[HttpGet]
@@ -57,7 +57,6 @@ namespace Daisin.Controllers
 			{
 				validation.AddToModelState(this.ModelState);
 				return View();
-
 			}
 			var hasUser = await _userManager.FindByEmailAsync(request.Email);
 			if (hasUser == null)
@@ -136,14 +135,8 @@ namespace Daisin.Controllers
 				return View();
 			}
 
-			string resetToken = await _userManager.GeneratePasswordResetTokenAsync(hasUser);
-			var passwordResetLink = Url.Action("ResetPassword", "Authentication", new
-			{
-				UserId = hasUser.Id,
-				Token = resetToken,
-			}, HttpContext.Request.Scheme);
+			await _authCustomService.CreateResetCredentitalsAndSend(hasUser, HttpContext, Url);
 
-			await _emailSendMethod.SendResetPasswordLinkWithToken(passwordResetLink!, hasUser.Email!);
 			return RedirectToAction("LogIn", "Authentication");
 		}
 

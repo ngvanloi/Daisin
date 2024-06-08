@@ -5,6 +5,7 @@ using FluentValidation;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using ServiceLayer.Helpes.Identity.EmailHelper;
 using ServiceLayer.Helpes.Identity.ModelStateHelper;
 
@@ -17,6 +18,7 @@ namespace Daisin.Controllers
 		private readonly IValidator<SignUpVM> _signUpValidator;
 		private readonly IValidator<LogInVM> _logInValidator;
 		private readonly IValidator<ForgotPasswordVM> _forgotPasswordValidator;
+		private readonly IValidator<ResetPasswordVM> _resetPasswordValidator;
 		private readonly IMapper _iMapper;
 		private readonly IEmailSendMethod _emailSendMethod;
 
@@ -27,7 +29,8 @@ namespace Daisin.Controllers
 			IValidator<LogInVM> logInValidator,
 			SignInManager<AppUser> signInManager,
 			IValidator<ForgotPasswordVM> forgotPasswordValidator,
-			IEmailSendMethod emailSendMethod)
+			IEmailSendMethod emailSendMethod,
+			IValidator<ResetPasswordVM> resetPasswordValidator)
 		{
 			_userManager = userManager;
 			_signUpValidator = signUpValidator;
@@ -36,6 +39,7 @@ namespace Daisin.Controllers
 			_signInManager = signInManager;
 			_forgotPasswordValidator = forgotPasswordValidator;
 			_emailSendMethod = emailSendMethod;
+			_resetPasswordValidator = resetPasswordValidator;
 		}
 
 		[HttpGet]
@@ -134,14 +138,64 @@ namespace Daisin.Controllers
 
 			string resetToken = await _userManager.GeneratePasswordResetTokenAsync(hasUser);
 			var passwordResetLink = Url.Action("ResetPassword", "Authentication", new
-			{ 
+			{
 				UserId = hasUser.Id,
 				Token = resetToken,
-				HttpContext.Request.Scheme
-			});
+			}, HttpContext.Request.Scheme);
 
 			await _emailSendMethod.SendResetPasswordLinkWithToken(passwordResetLink!, hasUser.Email!);
 			return RedirectToAction("LogIn", "Authentication");
 		}
+
+		[HttpGet]
+		public IActionResult ResetPassword(string userId, string token, List<string> errors)
+		{
+			TempData["UserId"] = userId;
+			TempData["Token"] = token;
+
+			if (errors.Any())
+			{
+				ViewBag.Result = "Error";
+				ModelState.AddModelErrorList(errors);
+			}
+			return View();
+		}
+
+		[HttpPost]
+		public async Task<IActionResult> ResetPassword(ResetPasswordVM request)
+		{
+			var userId = TempData["UserId"];
+			var token = TempData["Token"];
+
+			if (userId == null || token == null)
+			{
+				return RedirectToAction("LogIn", "Authentication");
+			}
+
+			var validation = await _resetPasswordValidator.ValidateAsync(request);
+			if (!validation.IsValid)
+			{
+				List<string> errors = validation.Errors.Select(x => x.ErrorMessage).ToList();
+				return RedirectToAction("ResetPassword", "Authentication", new { userId, token, errors });
+			}
+
+			var hasUser = await _userManager.FindByIdAsync(userId.ToString()!);
+			if (hasUser == null)
+			{
+				return RedirectToAction("LogIn", "Authentication");
+			}
+
+			var resetPasswordResult = await _userManager.ResetPasswordAsync(hasUser, token.ToString()!, request.Password);
+			if (resetPasswordResult.Succeeded)
+			{
+				return RedirectToAction("LogIn", "Authentication");
+			}
+			else
+			{
+				List<string> errors = resetPasswordResult.Errors.Select(x => x.Description).ToList();
+				return RedirectToAction("ResetPassword", "Authentication", new { userId, token, errors });
+			}
+		}
+
 	}
 }

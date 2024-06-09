@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using NToastNotify;
 using ServiceLayer.Services.WebApplication.Abstract;
-using System.Runtime.CompilerServices;
 
 namespace Daisin.Areas.Admin.Controllers
 {

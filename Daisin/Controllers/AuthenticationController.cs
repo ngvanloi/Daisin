@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using NToastNotify;
 using ServiceLayer.Helpes.Identity.EmailHelper;
 using ServiceLayer.Helpes.Identity.ModelStateHelper;
+using ServiceLayer.Messages.Identity;
 using ServiceLayer.Services.Identity.Abstract;
 
 namespace Daisin.Controllers
@@ -74,8 +75,8 @@ namespace Daisin.Controllers
 			if (logInResult.Succeeded)
 			{
 				_toasty.AddSuccessToastMessage(
-					"You have logged In. Please have fun.",
-					new ToastrOptions { Title = "Congratulations" }
+                    NotificationMessagesIdentity.SignUp(hasUser.UserName!),
+					new ToastrOptions { Title = NotificationMessagesIdentity.SuccessTitle }
 					);
 				return Redirect(returnUrl!);
 			}
@@ -116,7 +117,7 @@ namespace Daisin.Controllers
 				ModelState.AddModelErrorList(userCreateResult.Errors);
 				return View();
 			}
-			_toasty.AddSuccessToastMessage($"{user.UserName} has been created", new ToastrOptions { Title = "Congratulations" });
+			_toasty.AddSuccessToastMessage(NotificationMessagesIdentity.SignUp(user.UserName!), new ToastrOptions { Title = NotificationMessagesIdentity.SuccessTitle });
 			return RedirectToAction("Login", "Authentication");
 		}
 
@@ -145,8 +146,8 @@ namespace Daisin.Controllers
 			}
 
 			_toasty.AddSuccessToastMessage(
-				"Your password reset link has been sent to your email address",
-				new ToastrOptions { Title = "Congratulations" });
+				NotificationMessagesIdentity.PasswordReset,
+				new ToastrOptions { Title = NotificationMessagesIdentity.SuccessTitle });
 			await _authMainService.CreateResetCredentitalsAndSend(hasUser, HttpContext, Url);
 
 			return RedirectToAction("LogIn", "Authentication");
@@ -175,8 +176,8 @@ namespace Daisin.Controllers
 			if (userId == null || token == null)
 			{
 				_toasty.AddErrorToastMessage(
-					"Your token is no more valid, Please try again",
-					new ToastrOptions { Title = "I am Sorry!!" });
+                    NotificationMessagesIdentity.TokenValidationError,
+					new ToastrOptions { Title = NotificationMessagesIdentity.FailedTitle });
 				return RedirectToAction("LogIn", "Authentication");
 			}
 
@@ -191,8 +192,8 @@ namespace Daisin.Controllers
 			if (hasUser == null)
 			{
 				_toasty.AddErrorToastMessage(
-					"Your token is no more valid, Please try again",
-					new ToastrOptions { Title = "I am Sorry!!" });
+                    NotificationMessagesIdentity.TokenValidationError,
+					new ToastrOptions { Title = NotificationMessagesIdentity.FailedTitle });
 				return RedirectToAction("LogIn", "Authentication");
 			}
 
@@ -200,8 +201,8 @@ namespace Daisin.Controllers
 			if (resetPasswordResult.Succeeded)
 			{
 				_toasty.AddSuccessToastMessage(
-					"Your password has been changed. Please try to logIn.",
-					new ToastrOptions { Title = "Congratulations" });
+                    NotificationMessagesIdentity.PasswordChangeSuccess,
+					new ToastrOptions { Title = NotificationMessagesIdentity.SuccessTitle });
 				return RedirectToAction("LogIn", "Authentication");
 			}
 			else

@@ -3,8 +3,10 @@ using AutoMapper.QueryableExtensions;
 using EntityLayer.WebApplication.Entities;
 using EntityLayer.WebApplication.ViewModels.SocialMediaVM;
 using Microsoft.EntityFrameworkCore;
+using NToastNotify;
 using RepositoryLayer.Repositories.Abstract;
 using RepositoryLayer.UnitOfWorks.Abstract;
+using ServiceLayer.Messages.WebApplication;
 using ServiceLayer.Services.WebApplication.Abstract;
 using System;
 using System.Collections.Generic;
@@ -19,12 +21,14 @@ namespace ServiceLayer.Services.WebApplication.Concrete
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
         private readonly IGenericRepository<SocialMedia> _repo;
-
-        public SocialMediaService(IGenericRepository<SocialMedia> repo, IUnitOfWork unitOfWork, IMapper mapper)
+        private readonly IToastNotification _toasty;
+        private readonly string Section = "Social Media section";
+        public SocialMediaService(IGenericRepository<SocialMedia> repo, IUnitOfWork unitOfWork, IMapper mapper, IToastNotification toasty)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
             _repo = _unitOfWork.GetGenericRepository<SocialMedia>();
+            _toasty = toasty;
         }
 
         public async Task<List<SocialMediaListVM>> GetAllAsync()
@@ -41,6 +45,7 @@ namespace ServiceLayer.Services.WebApplication.Concrete
             var socialMedia = _mapper.Map<SocialMedia>(request);
             await _repo.AddEntityAsync(socialMedia);
             await _unitOfWork.CommitAsync();
+            _toasty.AddSuccessToastMessage(NotificationMessagesWebapplication.AddMessage(Section), new ToastrOptions { Title = NotificationMessagesWebapplication.Success });
         }
 
         public async Task DeleteSocialMediaAsync(int id)
@@ -48,6 +53,7 @@ namespace ServiceLayer.Services.WebApplication.Concrete
             var socialMedia = await _repo.GetEntityByIdAsync(id);
             _repo.DeleteEntity(socialMedia);
             await _unitOfWork.CommitAsync();
+            _toasty.AddWarningToastMessage(NotificationMessagesWebapplication.DeleteMessage(Section), new ToastrOptions { Title = NotificationMessagesWebapplication.Success });
         }
 
         public async Task UpdateSocialMediaAsync(SocialMediaUpdateVM request)
@@ -55,6 +61,7 @@ namespace ServiceLayer.Services.WebApplication.Concrete
             var socialMediaUpdate = _mapper.Map<SocialMedia>(request);
             _repo.UpdateEntity(socialMediaUpdate);
             await _unitOfWork.CommitAsync();
+            _toasty.AddInfoToastMessage(NotificationMessagesWebapplication.UpdateMessage(Section), new ToastrOptions { Title = NotificationMessagesWebapplication.Success });
         }
 
         public async Task<SocialMediaUpdateVM> GetSocialMediaById(int Id)

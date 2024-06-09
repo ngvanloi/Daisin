@@ -4,9 +4,11 @@ using CoreLayer.Enumerators;
 using EntityLayer.WebApplication.Entities;
 using EntityLayer.WebApplication.ViewModels.PortfolioVM;
 using Microsoft.EntityFrameworkCore;
+using NToastNotify;
 using RepositoryLayer.Repositories.Abstract;
 using RepositoryLayer.UnitOfWorks.Abstract;
 using ServiceLayer.Helpes.Identity.Image;
+using ServiceLayer.Messages.WebApplication;
 using ServiceLayer.Services.WebApplication.Abstract;
 using System;
 using System.Collections.Generic;
@@ -22,13 +24,15 @@ namespace ServiceLayer.Services.WebApplication.Concrete
         private readonly IMapper _mapper;
         private readonly IGenericRepository<Portfolio> _repo;
         private readonly IImageHelper _imageHelper;
-
-        public PortfolioService(IGenericRepository<Portfolio> repo, IUnitOfWork unitOfWork, IMapper mapper, IImageHelper imageHelper)
+        private readonly IToastNotification _toasty;
+        private readonly string Section = "Portfolio section";
+        public PortfolioService(IGenericRepository<Portfolio> repo, IUnitOfWork unitOfWork, IMapper mapper, IImageHelper imageHelper, IToastNotification toasty)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
             _repo = _unitOfWork.GetGenericRepository<Portfolio>();
             _imageHelper = imageHelper;
+            _toasty = toasty;
         }
 
         public async Task<List<PortfolioListVM>> GetAllAsync()
@@ -46,6 +50,7 @@ namespace ServiceLayer.Services.WebApplication.Concrete
             var imageResult = await _imageHelper.ImageUpload(request.Photo, ImageType.portfolio, null);
             if (imageResult.Error != null)
             {
+                _toasty.AddErrorToastMessage(imageResult.Error, new ToastrOptions { Title = NotificationMessagesWebapplication.FailedTitle });
                 return;
             }
             request.FileName = imageResult.FileName!;
@@ -54,6 +59,7 @@ namespace ServiceLayer.Services.WebApplication.Concrete
             var portfolio = _mapper.Map<Portfolio>(request);
             await _repo.AddEntityAsync(portfolio);
             await _unitOfWork.CommitAsync();
+            _toasty.AddSuccessToastMessage(NotificationMessagesWebapplication.AddMessage(Section), new ToastrOptions { Title = NotificationMessagesWebapplication.Success });
         }
 
         public async Task DeletePortfolioAsync(int id)
@@ -62,6 +68,7 @@ namespace ServiceLayer.Services.WebApplication.Concrete
             _repo.DeleteEntity(portfolio);
             await _unitOfWork.CommitAsync();
             _imageHelper.DeleteImage(portfolio.FileName);
+            _toasty.AddWarningToastMessage(NotificationMessagesWebapplication.DeleteMessage(Section), new ToastrOptions { Title = NotificationMessagesWebapplication.Success });
         }
 
         public async Task UpdatePortfolioAsync(PortfolioUpdateVM request)
@@ -73,6 +80,9 @@ namespace ServiceLayer.Services.WebApplication.Concrete
                 var imageResult = await _imageHelper.ImageUpload(request.Photo, ImageType.portfolio, null);
                 if (imageResult.Error != null)
                 {
+                    _toasty.AddErrorToastMessage(
+                        imageResult.Error,
+                        new ToastrOptions { Title = NotificationMessagesWebapplication.FailedTitle });
                     return;
                 }
                 request.FileName = imageResult.FileName!;
@@ -84,6 +94,7 @@ namespace ServiceLayer.Services.WebApplication.Concrete
             await _unitOfWork.CommitAsync();
             if (request.Photo != null)
                 _imageHelper.DeleteImage(oldPortfolio.FileName);
+            _toasty.AddInfoToastMessage(NotificationMessagesWebapplication.UpdateMessage(Section), new ToastrOptions { Title = NotificationMessagesWebapplication.Success });
         }
 
         public async Task<PortfolioUpdateVM> GetPortfolioById(int Id)

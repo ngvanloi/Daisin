@@ -7,6 +7,7 @@ using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using NToastNotify;
 using ServiceLayer.Helpes.Identity.Image;
 using ServiceLayer.Helpes.Identity.ModelStateHelper;
 using ServiceLayer.Services.Identity.Abstract;
@@ -22,12 +23,14 @@ namespace Daisin.Areas.User.Controllers
 		private readonly UserManager<AppUser> _userManager;
 		private readonly IValidator<UserEditVM> _validator;
 		private readonly IAuthenticationUserService _authenticationUserService;
+		private readonly IToastNotification _toasty;
 
-		public AuthenticationUserController(UserManager<AppUser> userManager, IValidator<UserEditVM> validator, IAuthenticationUserService authenticationUserService)
+		public AuthenticationUserController(UserManager<AppUser> userManager, IValidator<UserEditVM> validator, IAuthenticationUserService authenticationUserService, IToastNotification toasty)
 		{
 			_userManager = userManager;
 			_validator = validator;
 			_authenticationUserService = authenticationUserService;
+			_toasty = toasty;
 		}
 
 		[HttpGet("UserEdit")]
@@ -57,6 +60,9 @@ namespace Daisin.Areas.User.Controllers
 				return View();
 			}
 			ViewBag.Username = user!.UserName;
+			_toasty.AddInfoToastMessage(
+				$"{user.UserName} has been updated",
+				new ToastrOptions { Title = "Congratulations" });
 
 			return RedirectToAction("Index", "Dashboard", new { Area = "User" });
 		}

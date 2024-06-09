@@ -5,6 +5,7 @@ using FluentValidation;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using NToastNotify;
 using ServiceLayer.Helpes.Identity.EmailHelper;
 using ServiceLayer.Helpes.Identity.ModelStateHelper;
 using ServiceLayer.Services.Identity.Abstract;
@@ -21,6 +22,7 @@ namespace Daisin.Controllers
 		private readonly IValidator<ResetPasswordVM> _resetPasswordValidator;
 		private readonly IMapper _iMapper;
 		private readonly IAuthenticationMainService _authMainService;
+		private readonly IToastNotification _toasty;
 
 		public AuthenticationController(
 			UserManager<AppUser> userManager,
@@ -30,7 +32,8 @@ namespace Daisin.Controllers
 			SignInManager<AppUser> signInManager,
 			IValidator<ForgotPasswordVM> forgotPasswordValidator,
 			IValidator<ResetPasswordVM> resetPasswordValidator,
-			IAuthenticationMainService authMainService)
+			IAuthenticationMainService authMainService,
+			IToastNotification toasty)
 		{
 			_userManager = userManager;
 			_signUpValidator = signUpValidator;
@@ -40,6 +43,7 @@ namespace Daisin.Controllers
 			_forgotPasswordValidator = forgotPasswordValidator;
 			_resetPasswordValidator = resetPasswordValidator;
 			_authMainService = authMainService;
+			_toasty = toasty;
 		}
 
 		[HttpGet]
@@ -69,6 +73,10 @@ namespace Daisin.Controllers
 			var logInResult = await _signInManager.PasswordSignInAsync(hasUser, request.Password, request.RememberMe, true);
 			if (logInResult.Succeeded)
 			{
+				_toasty.AddSuccessToastMessage(
+					"You have logged In. Please have fun.",
+					new ToastrOptions { Title = "Congratulations" }
+					);
 				return Redirect(returnUrl!);
 			}
 
@@ -108,6 +116,7 @@ namespace Daisin.Controllers
 				ModelState.AddModelErrorList(userCreateResult.Errors);
 				return View();
 			}
+			_toasty.AddSuccessToastMessage($"{user.UserName} has been created", new ToastrOptions { Title = "Congratulations" });
 			return RedirectToAction("Login", "Authentication");
 		}
 
@@ -135,6 +144,9 @@ namespace Daisin.Controllers
 				return View();
 			}
 
+			_toasty.AddSuccessToastMessage(
+				"Your password reset link has been sent to your email address",
+				new ToastrOptions { Title = "Congratulations" });
 			await _authMainService.CreateResetCredentitalsAndSend(hasUser, HttpContext, Url);
 
 			return RedirectToAction("LogIn", "Authentication");
@@ -162,6 +174,9 @@ namespace Daisin.Controllers
 
 			if (userId == null || token == null)
 			{
+				_toasty.AddErrorToastMessage(
+					"Your token is no more valid, Please try again",
+					new ToastrOptions { Title = "I am Sorry!!" });
 				return RedirectToAction("LogIn", "Authentication");
 			}
 
@@ -175,12 +190,18 @@ namespace Daisin.Controllers
 			var hasUser = await _userManager.FindByIdAsync(userId.ToString()!);
 			if (hasUser == null)
 			{
+				_toasty.AddErrorToastMessage(
+					"Your token is no more valid, Please try again",
+					new ToastrOptions { Title = "I am Sorry!!" });
 				return RedirectToAction("LogIn", "Authentication");
 			}
 
 			var resetPasswordResult = await _userManager.ResetPasswordAsync(hasUser, token.ToString()!, request.Password);
 			if (resetPasswordResult.Succeeded)
 			{
+				_toasty.AddSuccessToastMessage(
+					"Your password has been changed. Please try to logIn.",
+					new ToastrOptions { Title = "Congratulations" });
 				return RedirectToAction("LogIn", "Authentication");
 			}
 			else

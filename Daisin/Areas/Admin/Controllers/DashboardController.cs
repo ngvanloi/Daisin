@@ -8,6 +8,7 @@ namespace Daisin.Areas.Admin.Controllers
 	[Route("Admin/Dashboard")]
 	public class DashboardController : Controller
 	{
+		[HttpGet]
 		public IActionResult Index()
 		{
 			return View();

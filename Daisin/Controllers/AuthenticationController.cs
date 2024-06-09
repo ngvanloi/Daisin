@@ -20,7 +20,7 @@ namespace Daisin.Controllers
 		private readonly IValidator<ForgotPasswordVM> _forgotPasswordValidator;
 		private readonly IValidator<ResetPasswordVM> _resetPasswordValidator;
 		private readonly IMapper _iMapper;
-		private readonly IAuthenticationCustomService _authCustomService;
+		private readonly IAuthenticationMainService _authMainService;
 
 		public AuthenticationController(
 			UserManager<AppUser> userManager,
@@ -30,7 +30,7 @@ namespace Daisin.Controllers
 			SignInManager<AppUser> signInManager,
 			IValidator<ForgotPasswordVM> forgotPasswordValidator,
 			IValidator<ResetPasswordVM> resetPasswordValidator,
-			IAuthenticationCustomService authCustomService)
+			IAuthenticationMainService authMainService)
 		{
 			_userManager = userManager;
 			_signUpValidator = signUpValidator;
@@ -39,7 +39,7 @@ namespace Daisin.Controllers
 			_signInManager = signInManager;
 			_forgotPasswordValidator = forgotPasswordValidator;
 			_resetPasswordValidator = resetPasswordValidator;
-			_authCustomService = authCustomService;
+			_authMainService = authMainService;
 		}
 
 		[HttpGet]
@@ -135,7 +135,7 @@ namespace Daisin.Controllers
 				return View();
 			}
 
-			await _authCustomService.CreateResetCredentitalsAndSend(hasUser, HttpContext, Url);
+			await _authMainService.CreateResetCredentitalsAndSend(hasUser, HttpContext, Url);
 
 			return RedirectToAction("LogIn", "Authentication");
 		}

@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace ServiceLayer.Services.Identity.Abstract
 {
-	public interface IAuthenticationCustomService
+	public interface IAuthenticationMainService
 	{
 		Task CreateResetCredentitalsAndSend(AppUser user, HttpContext context, IUrlHelper Url);
 	}

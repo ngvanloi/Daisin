@@ -1,10 +1,12 @@
 ﻿using AutoMapper;
 using AutoMapper.QueryableExtensions;
+using CoreLayer.Enumerators;
 using EntityLayer.WebApplication.Entities;
 using EntityLayer.WebApplication.ViewModels.AboutVM;
 using Microsoft.EntityFrameworkCore;
 using RepositoryLayer.Repositories.Abstract;
 using RepositoryLayer.UnitOfWorks.Abstract;
+using ServiceLayer.Helpes.Identity.Image;
 using ServiceLayer.Services.WebApplication.Abstract;
 using System;
 using System.Collections.Generic;
@@ -20,12 +22,13 @@ namespace ServiceLayer.Services.WebApplication.Concrete
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
         private readonly IGenericRepository<About> _repo;
-
-        public AboutService(IGenericRepository<About> repo, IUnitOfWork unitOfWork, IMapper mapper)
+        private readonly IImageHelper _imageHelper;
+        public AboutService(IGenericRepository<About> repo, IUnitOfWork unitOfWork, IMapper mapper, IImageHelper imageHelper)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
             _repo = _unitOfWork.GetGenericRepository<About>();
+            _imageHelper = imageHelper;
         }
 
         public async Task<List<AboutListVM>> GetAllAsync()
@@ -39,6 +42,14 @@ namespace ServiceLayer.Services.WebApplication.Concrete
 
         public async Task AddAboutAsync(AboutAddVM request)
         {
+            var imageResult = await _imageHelper.ImageUpload(request.Photo, ImageType.about, null);
+            if (imageResult.Error != null)
+            {
+                return;
+            }
+            request.FileName = imageResult.FileName!;
+            request.FileType = imageResult.FileType!;
+
             var about = _mapper.Map<About>(request);
             await _repo.AddEntityAsync(about);
             await _unitOfWork.CommitAsync();
@@ -49,13 +60,30 @@ namespace ServiceLayer.Services.WebApplication.Concrete
             var about = await _repo.GetEntityByIdAsync(id);
             _repo.DeleteEntity(about);
             await _unitOfWork.CommitAsync();
+            _imageHelper.DeleteImage(about.FileName);
         }
 
         public async Task UpdateAboutAsync(AboutUpdateVM request)
         {
+            var oldAbout = await _repo.Where(x => x.Id == request.Id).AsNoTracking().FirstAsync();
+
+            if (request.Photo != null)
+            {
+                var imageResult = await _imageHelper.ImageUpload(request.Photo, ImageType.about, null);
+                if (imageResult.Error != null)
+                {
+                    return;
+                }
+                request.FileName = imageResult.FileName!;
+                request.FileType = imageResult.FileType!;
+            }
+
             var aboutUpdate = _mapper.Map<About>(request);
             _repo.UpdateEntity(aboutUpdate);
             await _unitOfWork.CommitAsync();
+            if (request.Photo != null)
+                _imageHelper.DeleteImage(oldAbout.FileName);
+
         }
 
         public async Task<AboutUpdateVM> GetAboutById(int Id)

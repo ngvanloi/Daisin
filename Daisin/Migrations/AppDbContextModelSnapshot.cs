@@ -47,6 +47,22 @@ namespace Daisin.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "aa3d9336-4414-4fb6-b5da-d12dfc30e2ef",
+                            ConcurrencyStamp = "3efd52ad-4c9a-4a9c-aff0-3764593cf057",
+                            Name = "SuperAdmin",
+                            NormalizedName = "SUPERADMIN"
+                        },
+                        new
+                        {
+                            Id = "0f1c16f7-6d56-4dad-9761-d03a63b42e87",
+                            ConcurrencyStamp = "1d1730ea-4e3d-461f-baef-bec7c186d65f",
+                            Name = "Member",
+                            NormalizedName = "MEMBER"
+                        });
                 });
 
             modelBuilder.Entity("EntityLayer.Identity.Entities.AppUser", b =>
@@ -118,6 +134,40 @@ namespace Daisin.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "8cc8635c-47c6-4b98-98c4-a26894b18d24",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "fe9658c1-8faf-408e-afa0-a88c99a89f63",
+                            Email = "nguyenloi.itse@gmail.com",
+                            EmailConfirmed = false,
+                            LockoutEnabled = false,
+                            NormalizedEmail = "NGUYENLOI.ITSE@GMAIL.COM",
+                            NormalizedUserName = "TESTADMIN",
+                            PasswordHash = "AQAAAAIAAYagAAAAELLsRrN30Mci7+jedgad8x43S40XvqHZAjWWBivR7p9R8zlxJlbkc1vlTsekwWxOQQ==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "573b7857-0587-4c59-8384-df2efae0c09e",
+                            TwoFactorEnabled = false,
+                            UserName = "TestAdmin"
+                        },
+                        new
+                        {
+                            Id = "e137111e-77b7-40f8-9318-099522ba68af",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "ea74bbdf-5de8-40db-a728-78d719346801",
+                            Email = "nguyenloi.site@gmail.com",
+                            EmailConfirmed = false,
+                            LockoutEnabled = false,
+                            NormalizedEmail = "NGUYENLOI.SITE@GMAIL.COM",
+                            NormalizedUserName = "TESTMEMBER",
+                            PasswordHash = "AQAAAAIAAYagAAAAECYHRgyzjjijo5yB1Zc+IUTWrLE61bjempyYeLWCEmJ92m8WdMOjYGUZwWMg9jTrlg==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "b7931142-3452-4780-b4a6-02e9d1d5f87d",
+                            TwoFactorEnabled = false,
+                            UserName = "TestMember"
+                        });
                 });
 
             modelBuilder.Entity("EntityLayer.WebApplication.Entities.About", b =>
@@ -192,7 +242,7 @@ namespace Daisin.Migrations
                         {
                             Id = 1,
                             Clients = 5,
-                            CreatedDate = "6/10/2024",
+                            CreatedDate = "06/10/2024",
                             Description = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
                             FileName = "test",
                             FileType = "test",
@@ -240,13 +290,13 @@ namespace Daisin.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedDate = "6/10/2024",
+                            CreatedDate = "06/10/2024",
                             Name = "Projects"
                         },
                         new
                         {
                             Id = 2,
-                            CreatedDate = "6/10/2024",
+                            CreatedDate = "06/10/2024",
                             Name = "SiteWorks"
                         });
                 });
@@ -302,7 +352,7 @@ namespace Daisin.Migrations
                         {
                             Id = 1,
                             Call = "123456789",
-                            CreatedDate = "6/10/2024",
+                            CreatedDate = "06/10/2024",
                             Email = "test@try.com",
                             Location = "Iron street, Brave Avenue, KD1 2CF, London",
                             Map = "TestLiunk Here"
@@ -354,7 +404,7 @@ namespace Daisin.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedDate = "6/10/2024",
+                            CreatedDate = "06/10/2024",
                             Description = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
                             Header = "Lorem Ipsum is simply dummy text of the printing and typesetting industry",
                             VideoLink = "Test Video Link"
@@ -411,7 +461,7 @@ namespace Daisin.Migrations
                         {
                             Id = 1,
                             CategoryId = 1,
-                            CreatedDate = "6/10/2024",
+                            CreatedDate = "06/10/2024",
                             FileName = "Test",
                             FileType = "test",
                             Title = "Test picture"
@@ -420,7 +470,7 @@ namespace Daisin.Migrations
                         {
                             Id = 2,
                             CategoryId = 1,
-                            CreatedDate = "6/10/2024",
+                            CreatedDate = "06/10/2024",
                             FileName = "Test 2",
                             FileType = "test 2",
                             Title = "Test picture 2"
@@ -429,7 +479,7 @@ namespace Daisin.Migrations
                         {
                             Id = 3,
                             CategoryId = 2,
-                            CreatedDate = "6/10/2024",
+                            CreatedDate = "06/10/2024",
                             FileName = "Test 3",
                             FileType = "test 3",
                             Title = "Test picture 3"
@@ -438,7 +488,7 @@ namespace Daisin.Migrations
                         {
                             Id = 4,
                             CategoryId = 2,
-                            CreatedDate = "6/10/2024",
+                            CreatedDate = "06/10/2024",
                             FileName = "Test 4",
                             FileType = "test 4",
                             Title = "Test picture 4"
@@ -491,7 +541,7 @@ namespace Daisin.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedDate = "6/10/2024",
+                            CreatedDate = "06/10/2024",
                             Description = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
                             Icon = "bi bi-service1",
                             Name = "Daisin Service 1"
@@ -499,7 +549,7 @@ namespace Daisin.Migrations
                         new
                         {
                             Id = 2,
-                            CreatedDate = "6/10/2024",
+                            CreatedDate = "06/10/2024",
                             Description = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
                             Icon = "bi bi-service2",
                             Name = "Daisin Service 2"
@@ -507,7 +557,7 @@ namespace Daisin.Migrations
                         new
                         {
                             Id = 3,
-                            CreatedDate = "6/10/2024",
+                            CreatedDate = "06/10/2024",
                             Description = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
                             Icon = "bi bi-service3",
                             Name = "Daisin Service 3"
@@ -557,7 +607,7 @@ namespace Daisin.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedDate = "6/10/2024",
+                            CreatedDate = "06/10/2024",
                             Facebook = "testFacebook",
                             Instagram = "testInstargram"
                         });
@@ -624,7 +674,7 @@ namespace Daisin.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedDate = "6/10/2024",
+                            CreatedDate = "06/10/2024",
                             Facebook = "Facebook",
                             FileName = "test",
                             FileType = "test",
@@ -691,7 +741,7 @@ namespace Daisin.Migrations
                         {
                             Id = 1,
                             Comment = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
-                            CreatedDate = "6/10/2024",
+                            CreatedDate = "06/10/2024",
                             FileName = "test",
                             FileType = "test",
                             FullName = "Merlyn Monroe",
@@ -701,7 +751,7 @@ namespace Daisin.Migrations
                         {
                             Id = 2,
                             Comment = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
-                            CreatedDate = "6/10/2024",
+                            CreatedDate = "06/10/2024",
                             FileName = "test",
                             FileType = "test",
                             FullName = "Jackie Chan",
@@ -711,7 +761,7 @@ namespace Daisin.Migrations
                         {
                             Id = 3,
                             Comment = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
-                            CreatedDate = "6/10/2024",
+                            CreatedDate = "06/10/2024",
                             FileName = "test",
                             FileType = "test",
                             FullName = "Bruce Wills",
@@ -799,11 +849,19 @@ namespace Daisin.Migrations
                     b.Property<string>("RoleId")
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<string>("Discriminator")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("UserId", "RoleId");
 
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetUserRoles", (string)null);
+
+                    b.HasDiscriminator<string>("Discriminator").HasValue("IdentityUserRole<string>");
+
+                    b.UseTphMappingStrategy();
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
@@ -823,6 +881,25 @@ namespace Daisin.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens", (string)null);
+                });
+
+            modelBuilder.Entity("EntityLayer.Identity.Entities.AppUserRole", b =>
+                {
+                    b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUserRole<string>");
+
+                    b.HasDiscriminator().HasValue("AppUserRole");
+
+                    b.HasData(
+                        new
+                        {
+                            UserId = "8cc8635c-47c6-4b98-98c4-a26894b18d24",
+                            RoleId = "aa3d9336-4414-4fb6-b5da-d12dfc30e2ef"
+                        },
+                        new
+                        {
+                            UserId = "e137111e-77b7-40f8-9318-099522ba68af",
+                            RoleId = "0f1c16f7-6d56-4dad-9761-d03a63b42e87"
+                        });
                 });
 
             modelBuilder.Entity("EntityLayer.WebApplication.Entities.About", b =>

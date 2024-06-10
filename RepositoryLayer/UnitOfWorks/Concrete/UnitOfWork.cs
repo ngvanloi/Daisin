@@ -1,4 +1,5 @@
-﻿using RepositoryLayer.Context;
+﻿using Microsoft.EntityFrameworkCore;
+using RepositoryLayer.Context;
 using RepositoryLayer.Repositories.Abstract;
 using RepositoryLayer.Repositories.Concrete;
 using RepositoryLayer.UnitOfWorks.Abstract;
@@ -24,9 +25,17 @@ namespace RepositoryLayer.UnitOfWorks.Concrete
 			_context.SaveChanges();
 		}
 
-		public async Task CommitAsync()
+		public async Task<bool> CommitAsync()
 		{
-			await _context.SaveChangesAsync();
+			try
+			{
+				await _context.SaveChangesAsync();
+				return true;
+			}
+			catch (DbUpdateConcurrencyException)
+			{
+				return false;
+			}
 		}
 
 		public ValueTask DisposeAsync()

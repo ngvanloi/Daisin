@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using NToastNotify;
 using RepositoryLayer.Repositories.Abstract;
 using RepositoryLayer.UnitOfWorks.Abstract;
+using ServiceLayer.Exceptions.WebApplication;
 using ServiceLayer.Helpes.Identity.Image;
 using ServiceLayer.Messages.WebApplication;
 using ServiceLayer.Services.WebApplication.Abstract;
@@ -91,8 +92,16 @@ namespace ServiceLayer.Services.WebApplication.Concrete
 
             var portfolioUpdate = _mapper.Map<Portfolio>(request);
             _repo.UpdateEntity(portfolioUpdate);
-            await _unitOfWork.CommitAsync();
-            if (request.Photo != null)
+			var result = await _unitOfWork.CommitAsync();
+			if (!result)
+			{
+                if (request.Photo != null)
+                {
+                    _imageHelper.DeleteImage(request.FileName);
+                }
+				throw new ClientSideExceptions(ExceptionMessage.ConcurencyException);
+			}
+			if (request.Photo != null)
                 _imageHelper.DeleteImage(oldPortfolio.FileName);
             _toasty.AddInfoToastMessage(NotificationMessagesWebapplication.UpdateMessage(Section), new ToastrOptions { Title = NotificationMessagesWebapplication.Success });
         }

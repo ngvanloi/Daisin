@@ -11,7 +11,7 @@ namespace EntityLayer.WebApplication.ViewModels.PortfolioVM
 	public class PortfolioListVM
 	{
 		public int Id { get; set; }
-		public string CreatedDate { get; set; } = DateTime.Now.ToString("d");
+		public string CreatedDate { get; set; } = null!;
 		public string? UpdatedDate { get; set; }
 
 		public string Title { get; set; } = null!;

@@ -26,7 +26,8 @@ namespace RepositoryLayer.Configuration.WebApplication
             builder.HasData(new Team
             {
                 Id = 1,
-                FullName = "John White",
+				CreatedDate = "06/10/2024",
+				FullName = "John White",
                 Title = "Professor",
                 FileName = "test",
                 FileType = "test",

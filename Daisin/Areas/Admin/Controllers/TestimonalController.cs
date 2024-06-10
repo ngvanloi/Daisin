@@ -44,7 +44,7 @@ namespace Daisin.Areas.Admin.Controllers
 			if (validation.IsValid)
 			{
 				await _testimonalService.AddTestimonalAsync(request);
-				return RedirectToAction("GetTestimonalList", "Testimonal", new { Areas = ("Admin") });
+				return RedirectToAction("GetTestimonalList", "Testimonal", new { Area = ("Admin") });
 			}
 			validation.AddToModelState(this.ModelState);
 			return View();
@@ -64,7 +64,7 @@ namespace Daisin.Areas.Admin.Controllers
 			if (validation.IsValid)
 			{
 				await _testimonalService.UpdateTestimonalAsync(request);
-				return RedirectToAction("GetTestimonalList", "Testimonal", new { Areas = ("Admin") });
+				return RedirectToAction("GetTestimonalList", "Testimonal", new { Area = ("Admin") });
 			}
 			validation.AddToModelState(this.ModelState);
 			return View();
@@ -74,7 +74,7 @@ namespace Daisin.Areas.Admin.Controllers
 		public async Task<IActionResult> DeleteTestimonal(int Id)
 		{
 			await _testimonalService.DeleteTestimonalAsync(Id);
-			return RedirectToAction("GetTestimonalList", "Testimonal", new { Areas = ("Admin") });
+			return RedirectToAction("GetTestimonalList", "Testimonal", new { Area = ("Admin") });
 		}
 	}
 }

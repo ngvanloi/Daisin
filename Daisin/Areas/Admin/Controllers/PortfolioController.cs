@@ -44,7 +44,7 @@ namespace Daisin.Areas.Admin.Controllers
 			if (validation.IsValid)
 			{
 				await _portfolioService.AddPortfolioAsync(request);
-				return RedirectToAction("GetPortfolioList", "Portfolio", new { Areas = ("Admin") });
+				return RedirectToAction("GetPortfolioList", "Portfolio", new { Area = ("Admin") });
 			}
 			validation.AddToModelState(this.ModelState);
 			return View();
@@ -65,7 +65,7 @@ namespace Daisin.Areas.Admin.Controllers
 			if (validation.IsValid)
 			{
 				await _portfolioService.UpdatePortfolioAsync(request);
-				return RedirectToAction("GetPortfolioList", "Portfolio", new { Areas = ("Admin") });
+				return RedirectToAction("GetPortfolioList", "Portfolio", new { Area = ("Admin") });
 			}
 			validation.AddToModelState(this.ModelState);
 			return View();
@@ -75,7 +75,7 @@ namespace Daisin.Areas.Admin.Controllers
 		public async Task<IActionResult> DeletePortfolio(int Id)
 		{
 			await _portfolioService.DeletePortfolioAsync(Id);
-			return RedirectToAction("GetPortfolioList", "Portfolio", new { Areas = ("Admin") });
+			return RedirectToAction("GetPortfolioList", "Portfolio", new { Area = ("Admin") });
 		}
 	}
 }

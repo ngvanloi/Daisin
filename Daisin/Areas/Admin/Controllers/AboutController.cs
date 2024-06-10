@@ -48,7 +48,7 @@ namespace Daisin.Areas.Admin.Controllers
 			if (validation.IsValid)
 			{
 				await _aboutService.AddAboutAsync(request);
-				return RedirectToAction("GetAboutList", "About", new { Areas = ("Admin") });
+				return RedirectToAction("GetAboutList", "About", new { Area = ("Admin") });
 			}
 			validation.AddToModelState(this.ModelState);
 			return View();
@@ -61,6 +61,7 @@ namespace Daisin.Areas.Admin.Controllers
 			var about = await _aboutService.GetAboutById(id);
 			return View(about);
 		}
+
 		[HttpPost("UpdateAbout")]
 		public async Task<IActionResult> UpdateAbout(AboutUpdateVM request)
 		{
@@ -68,7 +69,7 @@ namespace Daisin.Areas.Admin.Controllers
 			if (validation.IsValid)
 			{
 				await _aboutService.UpdateAboutAsync(request);
-				return RedirectToAction("GetAboutList", "About", new { Areas = ("Admin") });
+				return RedirectToAction("GetAboutList", "About", new { Area = ("Admin") });
 			}
 			validation.AddToModelState(this.ModelState);
 			return View();
@@ -78,7 +79,7 @@ namespace Daisin.Areas.Admin.Controllers
 		public async Task<IActionResult> DeleteAbout(int Id)
 		{
 			await _aboutService.DeleteAboutAsync(Id);
-			return RedirectToAction("GetAboutList", "About", new { Areas = ("Admin") });
+			return RedirectToAction("GetAboutList", "About", new { Area = ("Admin") });
 		}
 	}
 }

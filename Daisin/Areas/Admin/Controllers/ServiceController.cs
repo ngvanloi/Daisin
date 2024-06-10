@@ -43,7 +43,7 @@ namespace Daisin.Areas.Admin.Controllers
 			if (validation.IsValid)
 			{
 				await _serviceService.AddServiceAsync(request);
-				return RedirectToAction("GetServiceList", "Service", new { Areas = ("Admin") });
+				return RedirectToAction("GetServiceList", "Service", new { Area = ("Admin") });
 			}
 			validation.AddToModelState(this.ModelState);
 			return View();
@@ -63,7 +63,7 @@ namespace Daisin.Areas.Admin.Controllers
 			if (validation.IsValid)
 			{
 				await _serviceService.UpdateServiceAsync(request);
-				return RedirectToAction("GetServiceList", "Service", new { Areas = ("Admin") });
+				return RedirectToAction("GetServiceList", "Service", new { Area = ("Admin") });
 			}
 			validation.AddToModelState(this.ModelState);
 			return View();
@@ -73,7 +73,7 @@ namespace Daisin.Areas.Admin.Controllers
 		public async Task<IActionResult> DeleteService(int Id)
 		{
 			await _serviceService.DeleteServiceAsync(Id);
-			return RedirectToAction("GetServiceList", "Service", new { Areas = ("Admin") });
+			return RedirectToAction("GetServiceList", "Service", new { Area = ("Admin") });
 		}
 	}
 }

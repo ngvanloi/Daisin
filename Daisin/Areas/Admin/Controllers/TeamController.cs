@@ -44,7 +44,7 @@ namespace Daisin.Areas.Admin.Controllers
 			if (validation.IsValid)
 			{
 				await _teamService.AddTeamAsync(request);
-				return RedirectToAction("GetTeamList", "Team", new { Areas = ("Admin") });
+				return RedirectToAction("GetTeamList", "Team", new { Area = ("Admin") });
 			}
 			validation.AddToModelState(this.ModelState);
 			return View();
@@ -64,7 +64,7 @@ namespace Daisin.Areas.Admin.Controllers
 			if (validation.IsValid)
 			{
 				await _teamService.UpdateTeamAsync(request);
-				return RedirectToAction("GetTeamList", "Team", new { Areas = ("Admin") });
+				return RedirectToAction("GetTeamList", "Team", new { Area = ("Admin") });
 			}
 			validation.AddToModelState(this.ModelState);
 			return View();
@@ -74,7 +74,7 @@ namespace Daisin.Areas.Admin.Controllers
 		public async Task<IActionResult> DeleteTeam(int Id)
 		{
 			await _teamService.DeleteTeamAsync(Id);
-			return RedirectToAction("GetTeamList", "Team", new { Areas = ("Admin") });
+			return RedirectToAction("GetTeamList", "Team", new { Area = ("Admin") });
 		}
 
 	}

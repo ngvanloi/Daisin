@@ -47,7 +47,7 @@ namespace Daisin.Areas.Admin.Controllers
 			if (validation.IsValid)
 			{
 				await _homePageService.AddHomePageAsync(request);
-				return RedirectToAction("GetHomePageList", "HomePage", new { Areas = ("Admin") });
+				return RedirectToAction("GetHomePageList", "HomePage", new { Area = ("Admin") });
 			}
 			validation.AddToModelState(this.ModelState);
 			return View();
@@ -67,7 +67,7 @@ namespace Daisin.Areas.Admin.Controllers
 			if (validation.IsValid)
 			{
 				await _homePageService.UpdateHomePageAsync(request);
-				return RedirectToAction("GetHomePageList", "HomePage", new { Areas = ("Admin") });
+				return RedirectToAction("GetHomePageList", "HomePage", new { Area = ("Admin") });
 			}
 			validation.AddToModelState(this.ModelState);
 			return View();
@@ -77,7 +77,7 @@ namespace Daisin.Areas.Admin.Controllers
 		public async Task<IActionResult> DeleteHomePage(int Id)
 		{
 			await _homePageService.DeleteHomePageAsync(Id);
-			return RedirectToAction("GetHomePageList", "HomePage", new { Areas = ("Admin") });
+			return RedirectToAction("GetHomePageList", "HomePage", new { Area = ("Admin") });
 		}
 	}
 }

@@ -34,7 +34,7 @@ namespace Daisin.Areas.Admin.Controllers
 		public async Task<IActionResult> AddSocialMedia(SocialMediaAddVM request)
 		{
 			await _socialMediaService.AddSocialMediaAsync(request);
-			return RedirectToAction("GetSocialMediaList", "SocialMedia", new { Areas = ("Admin") });
+			return RedirectToAction("GetSocialMediaList", "SocialMedia", new { Area = ("Admin") });
 		}
 
 		[ServiceFilter(typeof(GenericNotFoundFilter<SocialMedia>))]
@@ -48,14 +48,14 @@ namespace Daisin.Areas.Admin.Controllers
 		public async Task<IActionResult> UpdateSocialMedia(SocialMediaUpdateVM request)
 		{
 			await _socialMediaService.UpdateSocialMediaAsync(request);
-			return RedirectToAction("GetSocialMediaList", "SocialMedia", new { Areas = ("Admin") });
+			return RedirectToAction("GetSocialMediaList", "SocialMedia", new { Area = ("Admin") });
 		}
 
 		[HttpGet("Delete/{id}")]
 		public async Task<IActionResult> DeleteSocialMedia(int Id)
 		{
 			await _socialMediaService.DeleteSocialMediaAsync(Id);
-			return RedirectToAction("GetSocialMediaList", "SocialMedia", new { Areas = ("Admin") });
+			return RedirectToAction("GetSocialMediaList", "SocialMedia", new { Area = ("Admin") });
 		}
 	}
 }

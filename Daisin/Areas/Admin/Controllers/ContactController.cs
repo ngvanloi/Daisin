@@ -44,7 +44,7 @@ namespace Daisin.Areas.Admin.Controllers
 			if (validation.IsValid)
 			{
 				await _contactService.AddContactAsync(request);
-				return RedirectToAction("GetContactList", "Contact", new { Areas = ("Admin") });
+				return RedirectToAction("GetContactList", "Contact", new { Area = ("Admin") });
 			}
 			validation.AddToModelState(this.ModelState);
 			return View();
@@ -64,7 +64,7 @@ namespace Daisin.Areas.Admin.Controllers
 			if (validation.IsValid)
 			{
 				await _contactService.UpdateContactAsync(request);
-				return RedirectToAction("GetContactList", "Contact", new { Areas = ("Admin") });
+				return RedirectToAction("GetContactList", "Contact", new { Area = ("Admin") });
 			}
 			validation.AddToModelState(this.ModelState);
 			return View();
@@ -74,7 +74,7 @@ namespace Daisin.Areas.Admin.Controllers
 		public async Task<IActionResult> DeleteContact(int Id)
 		{
 			await _contactService.DeleteContactAsync(Id);
-			return RedirectToAction("GetContactList", "Contact", new { Areas = ("Admin") });
+			return RedirectToAction("GetContactList", "Contact", new { Area = ("Admin") });
 		}
 	}
 }

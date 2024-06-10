@@ -43,7 +43,7 @@ namespace Daisin.Areas.Admin.Controllers
 			if (validation.IsValid)
 			{
 				await _categoryService.AddCategoryAsync(request);
-				return RedirectToAction("GetCategoryList", "Category", new { Areas = ("Admin") });
+				return RedirectToAction("GetCategoryList", "Category", new { Area = ("Admin") });
 			}
 			validation.AddToModelState(this.ModelState);
 			return View();
@@ -64,7 +64,7 @@ namespace Daisin.Areas.Admin.Controllers
 			if (validation.IsValid)
 			{
 				await _categoryService.UpdateCategoryAsync(request);
-				return RedirectToAction("GetCategoryList", "Category", new { Areas = ("Admin") });
+				return RedirectToAction("GetCategoryList", "Category", new { Area = ("Admin") });
 			}
 			validation.AddToModelState(this.ModelState);
 			return View();
@@ -74,7 +74,7 @@ namespace Daisin.Areas.Admin.Controllers
 		public async Task<IActionResult> DeleteCategory(int Id)
 		{
 			await _categoryService.DeleteCategoryAsync(Id);
-			return RedirectToAction("GetCategoryList", "Category", new { Areas = ("Admin") });
+			return RedirectToAction("GetCategoryList", "Category", new { Area = ("Admin") });
 		}
 	}
 }

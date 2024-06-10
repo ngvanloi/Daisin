@@ -18,19 +18,21 @@ namespace Daisin.Areas.User.Controllers
     public class AuthenticationUserController : Controller
     {
         private readonly UserManager<AppUser> _userManager;
+        private readonly SignInManager<AppUser> _signInManager;
         private readonly IValidator<UserEditVM> _validator;
         private readonly IAuthenticationUserService _authenticationUserService;
         private readonly IToastNotification _toasty;
 
-        public AuthenticationUserController(UserManager<AppUser> userManager, IValidator<UserEditVM> validator, IAuthenticationUserService authenticationUserService, IToastNotification toasty)
-        {
-            _userManager = userManager;
-            _validator = validator;
-            _authenticationUserService = authenticationUserService;
-            _toasty = toasty;
-        }
+		public AuthenticationUserController(UserManager<AppUser> userManager, IValidator<UserEditVM> validator, IAuthenticationUserService authenticationUserService, IToastNotification toasty, SignInManager<AppUser> signInManager)
+		{
+			_userManager = userManager;
+			_validator = validator;
+			_authenticationUserService = authenticationUserService;
+			_toasty = toasty;
+			_signInManager = signInManager;
+		}
 
-        [HttpGet("UserEdit")]
+		[HttpGet("UserEdit")]
         public async Task<ActionResult> UserEdit()
         {
             var userEditVM = await _authenticationUserService.FindUserAsync(HttpContext);
@@ -63,5 +65,11 @@ namespace Daisin.Areas.User.Controllers
 
             return RedirectToAction("Index", "Dashboard", new { Area = "User" });
         }
+
+        public async Task<IActionResult> Logout()
+        {
+            await _signInManager.SignOutAsync();
+            return Redirect(" /Home/Index");
+		}
     }
 }

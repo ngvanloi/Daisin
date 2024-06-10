@@ -46,6 +46,14 @@ namespace ServiceLayer.FluentValidation.WebApplication.AboutValidation
 				.NotNull().WithMessage(ValidationMessage.NullEmptyMessage("HardWorkers"))
 				.GreaterThan(0).WithMessage(ValidationMessage.GreaterThanMessage("HardWorkers", 0))
 				.LessThan(99).WithMessage(ValidationMessage.LessThanMessage("HardWorkers", 99));
+
+			RuleFor(x => x.FileName)
+                .NotEmpty().WithMessage(ValidationMessage.NullEmptyMessage("FileName"))
+				.NotNull().WithMessage(ValidationMessage.NullEmptyMessage("FileName"));
+
+			RuleFor(x => x.FileType)
+                .NotEmpty().WithMessage(ValidationMessage.NullEmptyMessage("FileType"))
+				.NotNull().WithMessage(ValidationMessage.NullEmptyMessage("FileType"));
 		}
 	}
 }

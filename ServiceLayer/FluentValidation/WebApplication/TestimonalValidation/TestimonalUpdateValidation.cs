@@ -25,6 +25,13 @@ namespace ServiceLayer.FluentValidation.WebApplication.TestimonalValidation
 				.NotEmpty().WithMessage(ValidationMessage.NullEmptyMessage("Comment"))
 				.NotNull().WithMessage(ValidationMessage.NullEmptyMessage("Comment"))
 				.MaximumLength(2000).WithMessage(ValidationMessage.MaximumCharacterAllance("Comment", 2000));
+
+			RuleFor(x => x.FileName)
+				.NotEmpty().WithMessage(ValidationMessage.NullEmptyMessage("FileName"))
+				.NotNull().WithMessage(ValidationMessage.NullEmptyMessage("FileName"));
+			RuleFor(x => x.FileType)
+				.NotEmpty().WithMessage(ValidationMessage.NullEmptyMessage("FileType"))
+				.NotNull().WithMessage(ValidationMessage.NullEmptyMessage("FileType"));
 		}
 	}
 }

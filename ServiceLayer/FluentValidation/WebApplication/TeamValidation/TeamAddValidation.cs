@@ -21,12 +21,6 @@ namespace ServiceLayer.FluentValidation.WebApplication.TeamValidation
 				.NotEmpty().WithMessage(ValidationMessage.NullEmptyMessage("Title"))
 				.NotNull().WithMessage(ValidationMessage.NullEmptyMessage("Title"))
 				.MaximumLength(100).WithMessage(ValidationMessage.MaximumCharacterAllance("Title", 100));
-			//RuleFor(x => x.FileName)
-			//	.NotEmpty().WithMessage(ValidationMessage.NullEmptyMessage("FileName"))
-			//	.NotNull().WithMessage(ValidationMessage.NullEmptyMessage("FileName"));
-			//RuleFor(x => x.FileType)
-			//	.NotEmpty().WithMessage(ValidationMessage.NullEmptyMessage("FileType"))
-			//	.NotNull().WithMessage(ValidationMessage.NullEmptyMessage("FileType"));
 			RuleFor(x => x.Photo)
 				.NotEmpty().WithMessage(ValidationMessage.NullEmptyMessage("Photo"))
 				.NotNull().WithMessage(ValidationMessage.NullEmptyMessage("Photo"));

@@ -7,7 +7,7 @@ using ServiceLayer.Services.WebApplication.Abstract;
 
 namespace Daisin.Areas.Admin.Controllers
 {
-	[Authorize]
+	[Authorize(Roles = "SuperAdmin")]
 	[Area("Admin")]
 	[Route("Admin/SocialMedia")]
 	public class SocialMediaController : Controller

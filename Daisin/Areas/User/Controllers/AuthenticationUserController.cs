@@ -1,6 +1,4 @@
-﻿using AutoMapper;
-using CoreLayer.Enumerators;
-using EntityLayer.Identity.Entities;
+﻿using EntityLayer.Identity.Entities;
 using EntityLayer.Identity.ViewModels;
 using FluentValidation;
 using FluentValidation.AspNetCore;
@@ -8,16 +6,14 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using NToastNotify;
-using ServiceLayer.Helpes.Identity.Image;
 using ServiceLayer.Helpes.Identity.ModelStateHelper;
 using ServiceLayer.Messages.Identity;
 using ServiceLayer.Services.Identity.Abstract;
-using System.Net.Cache;
 
 namespace Daisin.Areas.User.Controllers
 {
-    [Authorize]
-    [Area("User")]
+	[Authorize(Roles = "Member,SuperAdmin")]
+	[Area("User")]
     [Route("User/AuthenticationUser")]
     public class AuthenticationUserController : Controller
     {

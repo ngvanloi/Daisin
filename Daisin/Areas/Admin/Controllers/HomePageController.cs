@@ -1,5 +1,4 @@
 ﻿using EntityLayer.WebApplication.Entities;
-using EntityLayer.WebApplication.ViewModels.AboutVM;
 using EntityLayer.WebApplication.ViewModels.HomePageVM;
 using FluentValidation;
 using FluentValidation.AspNetCore;
@@ -10,7 +9,7 @@ using ServiceLayer.Services.WebApplication.Abstract;
 
 namespace Daisin.Areas.Admin.Controllers
 {
-	[Authorize]
+	[Authorize(Roles = "SuperAdmin")]
 	[Area("Admin")]
 	[Route("Admin/HomePage")]
 	public class HomePageController : Controller

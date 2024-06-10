@@ -4,13 +4,12 @@ using FluentValidation;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using NToastNotify;
 using ServiceLayer.Filters.WebApplication;
 using ServiceLayer.Services.WebApplication.Abstract;
 
 namespace Daisin.Areas.Admin.Controllers
 {
-	[Authorize]
+	[Authorize(Roles = "SuperAdmin")]
 	[Area("Admin")]
 	[Route("Admin/About")]
 	public class AboutController : Controller
@@ -18,13 +17,11 @@ namespace Daisin.Areas.Admin.Controllers
 		private readonly IAboutService _aboutService;
 		private readonly IValidator<AboutAddVM> _addValidator;
 		private readonly IValidator<AboutUpdateVM> _updateValidator;
-		private readonly IToastNotification _toasty;
-		public AboutController(IAboutService aboutService, IValidator<AboutUpdateVM> updateValidator, IValidator<AboutAddVM> addValidator, IToastNotification toasty)
+		public AboutController(IAboutService aboutService, IValidator<AboutUpdateVM> updateValidator, IValidator<AboutAddVM> addValidator)
 		{
 			_aboutService = aboutService;
 			_updateValidator = updateValidator;
 			_addValidator = addValidator;
-			_toasty = toasty;
 		}
 
 		[HttpGet("GetAboutList")]

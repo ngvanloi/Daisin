@@ -1,9 +1,11 @@
-﻿using EntityLayer.WebApplication.ViewModels.AboutVM;
+﻿using EntityLayer.WebApplication.Entities;
+using EntityLayer.WebApplication.ViewModels.AboutVM;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using NToastNotify;
+using ServiceLayer.Filters.WebApplication;
 using ServiceLayer.Services.WebApplication.Abstract;
 
 namespace Daisin.Areas.Admin.Controllers
@@ -32,6 +34,7 @@ namespace Daisin.Areas.Admin.Controllers
 			return View(aboutList);
 		}
 
+		[ServiceFilter(typeof(GenericAddPreventationFilter<About>))]
 		[HttpGet("AddAbout")]
 		public IActionResult AddAbout()
 		{
@@ -51,6 +54,7 @@ namespace Daisin.Areas.Admin.Controllers
 			return View();
 		}
 
+		[ServiceFilter(typeof(GenericNotFoundFilter<About>))]
 		[HttpGet("UpdateAbout")]
 		public async Task<IActionResult> UpdateAbout(int id)
 		{

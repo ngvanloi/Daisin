@@ -1,9 +1,11 @@
-﻿using EntityLayer.WebApplication.ViewModels.AboutVM;
+﻿using EntityLayer.WebApplication.Entities;
+using EntityLayer.WebApplication.ViewModels.AboutVM;
 using EntityLayer.WebApplication.ViewModels.HomePageVM;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using ServiceLayer.Filters.WebApplication;
 using ServiceLayer.Services.WebApplication.Abstract;
 
 namespace Daisin.Areas.Admin.Controllers
@@ -23,6 +25,7 @@ namespace Daisin.Areas.Admin.Controllers
 			_addValidator = addValidator;
 			_updateValidator = updateValidator;
 		}
+
 		[HttpGet("GetHomePageList")]
 		public async Task<IActionResult> GetHomePageList()
 		{
@@ -30,11 +33,13 @@ namespace Daisin.Areas.Admin.Controllers
 			return View(homePageList);
 		}
 
+		[ServiceFilter(typeof(GenericAddPreventationFilter<HomePage>))]
 		[HttpGet("AddHomePage")]
 		public IActionResult AddHomePage()
 		{
 			return View();
 		}
+
 		[HttpPost("AddHomePage")]
 		public async Task<IActionResult> AddHomePage(HomePageAddVM request)
 		{
@@ -48,6 +53,7 @@ namespace Daisin.Areas.Admin.Controllers
 			return View();
 		}
 
+		[ServiceFilter(typeof(GenericNotFoundFilter<HomePage>))]
 		[HttpGet("UpdateHomePage")]
 		public async Task<IActionResult> UpdateHomePage(int id)
 		{

@@ -1,9 +1,10 @@
-﻿using EntityLayer.WebApplication.ViewModels.AboutVM;
+﻿using EntityLayer.WebApplication.Entities;
 using EntityLayer.WebApplication.ViewModels.ContactVM;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using ServiceLayer.Filters.WebApplication;
 using ServiceLayer.Services.WebApplication.Abstract;
 
 namespace Daisin.Areas.Admin.Controllers
@@ -30,6 +31,7 @@ namespace Daisin.Areas.Admin.Controllers
 			return View(contactList);
 		}
 
+		[ServiceFilter(typeof(GenericAddPreventationFilter<Contact>))]
 		[HttpGet("AddContact")]
 		public IActionResult AddContact()
 		{
@@ -48,6 +50,7 @@ namespace Daisin.Areas.Admin.Controllers
 			return View();
 		}
 
+		[ServiceFilter(typeof(GenericNotFoundFilter<Contact>))]
 		[HttpGet("UpdateContact")]
 		public async Task<IActionResult> UpdateContact(int id)
 		{

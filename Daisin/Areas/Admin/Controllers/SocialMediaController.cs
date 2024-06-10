@@ -1,6 +1,8 @@
-﻿using EntityLayer.WebApplication.ViewModels.SocialMediaVM;
+﻿using EntityLayer.WebApplication.Entities;
+using EntityLayer.WebApplication.ViewModels.SocialMediaVM;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using ServiceLayer.Filters.WebApplication;
 using ServiceLayer.Services.WebApplication.Abstract;
 
 namespace Daisin.Areas.Admin.Controllers
@@ -35,6 +37,7 @@ namespace Daisin.Areas.Admin.Controllers
 			return RedirectToAction("GetSocialMediaList", "SocialMedia", new { Areas = ("Admin") });
 		}
 
+		[ServiceFilter(typeof(GenericNotFoundFilter<SocialMedia>))]
 		[HttpGet("UpdateSocialMedia")]
 		public async Task<IActionResult> UpdateSocialMedia(int id)
 		{

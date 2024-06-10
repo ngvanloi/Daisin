@@ -64,7 +64,10 @@
 	</div>
 </div>
 
-<a asp-area="Admin" asp-controller="HomePage" asp-action="AddHomePage" class="btn btn-success btn-sm">
-	Add Home Page
-</a>
+@if (!Model.Any())
+{
+	<a asp-area="Admin" asp-controller="HomePage" asp-action="AddHomePage" class="btn btn-success btn-sm">
+		Add Home Page
+	</a>
+}
 

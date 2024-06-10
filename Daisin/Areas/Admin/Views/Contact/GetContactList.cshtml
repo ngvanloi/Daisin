@@ -1,7 +1,7 @@
 ﻿@model List<ContactListVM>;
 @{
-    ViewData["Title"] = "GetContactList";
-    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+	ViewData["Title"] = "GetContactList";
+	Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
 
 <h5 class="card-title">Contact Us</h5>
@@ -59,7 +59,10 @@
 	</div>
 </div>
 
-<a asp-area="Admin" asp-controller="Contact" asp-action="AddContact" class="btn btn-success btn-sm">
-	Add Contact Us
-</a>
+@if (!Model.Any())
+{
+	<a asp-area="Admin" asp-controller="Contact" asp-action="AddContact" class="btn btn-success btn-sm">
+		Add Contact Us
+	</a>
+}
 

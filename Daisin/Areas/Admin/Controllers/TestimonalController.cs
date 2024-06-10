@@ -1,9 +1,11 @@
-﻿using EntityLayer.WebApplication.ViewModels.AboutVM;
+﻿using EntityLayer.WebApplication.Entities;
+using EntityLayer.WebApplication.ViewModels.AboutVM;
 using EntityLayer.WebApplication.ViewModels.TestimonalVM;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using ServiceLayer.Filters.WebApplication;
 using ServiceLayer.Services.WebApplication.Abstract;
 
 namespace Daisin.Areas.Admin.Controllers
@@ -48,6 +50,7 @@ namespace Daisin.Areas.Admin.Controllers
 			return View();
 		}
 
+		[ServiceFilter(typeof(GenericNotFoundFilter<Testimonal>))]
 		[HttpGet("UpdateTestimonal")]
 		public async Task<IActionResult> UpdateTestimonal(int id)
 		{

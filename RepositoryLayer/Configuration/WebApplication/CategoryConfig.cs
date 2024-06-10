@@ -15,8 +15,9 @@ namespace RepositoryLayer.Configuration.WebApplication
         {
             builder.Property(x => x.CreatedDate).IsRequired().HasMaxLength(10);
             builder.Property(x => x.UpdatedDate).HasMaxLength(10);
-
             builder.Property(x => x.RowVersion).IsRowVersion();
+
+            builder.HasMany(x => x.Portfolios).WithOne(x => x.Category).OnDelete(DeleteBehavior.Restrict);
 
             builder.Property(x => x.Name).IsRequired().HasMaxLength(50);
 

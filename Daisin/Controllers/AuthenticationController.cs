@@ -48,8 +48,14 @@ namespace Daisin.Controllers
 		}
 
 		[HttpGet]
-		public IActionResult LogIn()
+		public IActionResult LogIn(string? errorMessage)
 		{
+			if (errorMessage != null)
+			{
+				ViewBag.Result = "NotSucceed";
+				ModelState.AddModelErrorList(new List<string> { errorMessage });
+				return View();
+			}
 			return View();
 		}
 
@@ -94,7 +100,7 @@ namespace Daisin.Controllers
 			return View();
 		}
 
-		[HttpGet]
+		[HttpGet("SignUp")]
 		public IActionResult SignUp()
 		{
 			return View();

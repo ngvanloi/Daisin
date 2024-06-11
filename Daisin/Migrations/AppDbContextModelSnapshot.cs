@@ -52,14 +52,14 @@ namespace Daisin.Migrations
                         new
                         {
                             Id = "aa3d9336-4414-4fb6-b5da-d12dfc30e2ef",
-                            ConcurrencyStamp = "84fedbb2-fa7b-434f-811c-7c744ba5a955",
+                            ConcurrencyStamp = "69e28e30-f7b1-4975-904a-f1c45b8d72ef",
                             Name = "SuperAdmin",
                             NormalizedName = "SUPERADMIN"
                         },
                         new
                         {
                             Id = "0f1c16f7-6d56-4dad-9761-d03a63b42e87",
-                            ConcurrencyStamp = "c3322547-c1b0-413a-8bf3-c812dea72f7f",
+                            ConcurrencyStamp = "ab6d9ebb-861f-437d-87d6-5dcab472c5a4",
                             Name = "Member",
                             NormalizedName = "MEMBER"
                         });
@@ -140,15 +140,15 @@ namespace Daisin.Migrations
                         {
                             Id = "8cc8635c-47c6-4b98-98c4-a26894b18d24",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "7c4f83d4-4f23-4982-ba8a-c008087e9d7c",
+                            ConcurrencyStamp = "d65738da-9d85-4bda-9546-ff3751311088",
                             Email = "nguyenloi.itse@gmail.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedEmail = "NGUYENLOI.ITSE@GMAIL.COM",
                             NormalizedUserName = "TESTADMIN",
-                            PasswordHash = "AQAAAAIAAYagAAAAEKvWr4BHVBjW93YAyooCTP0HxTveQH3lcBt9VxW8qHpEA/tyNqIFMW+kKZ69uX/IEg==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEP/stLvcIurCSH7ZTYnUotnHYZm9brX+uWNd92eJJShPsaTNULK9TKJJoPnjw11j6Q==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "4533ed65-d7aa-45ce-9972-281dea8624d5",
+                            SecurityStamp = "78cd39b7-615f-4f4d-853b-a3b4260bab3f",
                             TwoFactorEnabled = false,
                             UserName = "TestAdmin"
                         },
@@ -156,15 +156,15 @@ namespace Daisin.Migrations
                         {
                             Id = "e137111e-77b7-40f8-9318-099522ba68af",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "470d01b4-2589-4268-a1c4-1ad18b461a61",
+                            ConcurrencyStamp = "e3e6d8a8-c20c-428f-a778-42e9ba96a53c",
                             Email = "nguyenloi.site@gmail.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedEmail = "NGUYENLOI.SITE@GMAIL.COM",
                             NormalizedUserName = "TESTMEMBER",
-                            PasswordHash = "AQAAAAIAAYagAAAAEB78KoecVyHML424G5iTK8xF4K/cn0bnEvX/kTW+sw3o2R9wJqFAVP5DbSmzJjFyfQ==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEN9eWQgCNjDHCdTp47s8W2BNFlpkITC7OOPXM8SE6pZMPqtDg78KRJInS1AbeGlbjA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "c3d765a2-8441-49e5-9e26-0088d9c22b30",
+                            SecurityStamp = "33518298-0df2-45f6-90fd-81aae3d53a25",
                             TwoFactorEnabled = false,
                             UserName = "TestMember"
                         });

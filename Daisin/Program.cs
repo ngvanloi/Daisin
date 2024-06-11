@@ -1,6 +1,7 @@
 using NToastNotify;
 using RepositoryLayer.Extensions;
 using ServiceLayer.Extensions;
+using ServiceLayer.Middlewares.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -30,6 +31,7 @@ app.UseRouting();
 
 app.UseAuthentication();
 app.UseAuthorization();
+app.UseMiddleware<SecurityStampCheck>();
 
 app.MapControllerRoute(
 	name: "default",

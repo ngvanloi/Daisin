@@ -25,7 +25,7 @@ namespace Daisin.Areas.User.Components
             }
             var user = await _userManager.FindByNameAsync(Username);
 
-            if (user.FileName == null)
+            if (user == null || user.FileName == null)
             {
                 return View(new UserPictureVM { FileName = "Default" });
             }

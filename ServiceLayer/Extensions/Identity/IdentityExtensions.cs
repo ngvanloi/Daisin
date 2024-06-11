@@ -61,7 +61,12 @@ namespace ServiceLayer.Extensions.Identity
                 });
             });
 
-            return services;
+			services.Configure<SecurityStampValidatorOptions>(opt =>
+			{
+				opt.ValidationInterval = TimeSpan.FromMinutes(30);
+			});
+
+			return services;
 		}
 	}
 }

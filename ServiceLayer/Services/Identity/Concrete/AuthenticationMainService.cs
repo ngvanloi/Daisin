@@ -29,5 +29,5 @@ namespace ServiceLayer.Services.Identity.Concrete
 
 			await _email.SendResetPasswordLinkWithToken(passwordResetLink!, user.Email!);
 		}
-
+	}
 }

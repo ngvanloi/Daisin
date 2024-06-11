@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Daisin.Migrations
 {
     /// <inheritdoc />
-    public partial class initial : Migration
+    public partial class initital : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -216,7 +216,8 @@ namespace Daisin.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     ClaimType = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ClaimValue = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    ClaimValue = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Discriminator = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -354,8 +355,8 @@ namespace Daisin.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "0f1c16f7-6d56-4dad-9761-d03a63b42e87", "1d1730ea-4e3d-461f-baef-bec7c186d65f", "Member", "MEMBER" },
-                    { "aa3d9336-4414-4fb6-b5da-d12dfc30e2ef", "3efd52ad-4c9a-4a9c-aff0-3764593cf057", "SuperAdmin", "SUPERADMIN" }
+                    { "0f1c16f7-6d56-4dad-9761-d03a63b42e87", "ab6d9ebb-861f-437d-87d6-5dcab472c5a4", "Member", "MEMBER" },
+                    { "aa3d9336-4414-4fb6-b5da-d12dfc30e2ef", "69e28e30-f7b1-4975-904a-f1c45b8d72ef", "SuperAdmin", "SUPERADMIN" }
                 });
 
             migrationBuilder.InsertData(
@@ -363,8 +364,8 @@ namespace Daisin.Migrations
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "FileName", "FileType", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
                 values: new object[,]
                 {
-                    { "8cc8635c-47c6-4b98-98c4-a26894b18d24", 0, "fe9658c1-8faf-408e-afa0-a88c99a89f63", "nguyenloi.itse@gmail.com", false, null, null, false, null, "NGUYENLOI.ITSE@GMAIL.COM", "TESTADMIN", "AQAAAAIAAYagAAAAELLsRrN30Mci7+jedgad8x43S40XvqHZAjWWBivR7p9R8zlxJlbkc1vlTsekwWxOQQ==", null, false, "573b7857-0587-4c59-8384-df2efae0c09e", false, "TestAdmin" },
-                    { "e137111e-77b7-40f8-9318-099522ba68af", 0, "ea74bbdf-5de8-40db-a728-78d719346801", "nguyenloi.site@gmail.com", false, null, null, false, null, "NGUYENLOI.SITE@GMAIL.COM", "TESTMEMBER", "AQAAAAIAAYagAAAAECYHRgyzjjijo5yB1Zc+IUTWrLE61bjempyYeLWCEmJ92m8WdMOjYGUZwWMg9jTrlg==", null, false, "b7931142-3452-4780-b4a6-02e9d1d5f87d", false, "TestMember" }
+                    { "8cc8635c-47c6-4b98-98c4-a26894b18d24", 0, "d65738da-9d85-4bda-9546-ff3751311088", "nguyenloi.itse@gmail.com", false, null, null, false, null, "NGUYENLOI.ITSE@GMAIL.COM", "TESTADMIN", "AQAAAAIAAYagAAAAEP/stLvcIurCSH7ZTYnUotnHYZm9brX+uWNd92eJJShPsaTNULK9TKJJoPnjw11j6Q==", null, false, "78cd39b7-615f-4f4d-853b-a3b4260bab3f", false, "TestAdmin" },
+                    { "e137111e-77b7-40f8-9318-099522ba68af", 0, "e3e6d8a8-c20c-428f-a778-42e9ba96a53c", "nguyenloi.site@gmail.com", false, null, null, false, null, "NGUYENLOI.SITE@GMAIL.COM", "TESTMEMBER", "AQAAAAIAAYagAAAAEN9eWQgCNjDHCdTp47s8W2BNFlpkITC7OOPXM8SE6pZMPqtDg78KRJInS1AbeGlbjA==", null, false, "33518298-0df2-45f6-90fd-81aae3d53a25", false, "TestMember" }
                 });
 
             migrationBuilder.InsertData(
@@ -420,6 +421,11 @@ namespace Daisin.Migrations
                 table: "Abouts",
                 columns: new[] { "Id", "Clients", "CreatedDate", "Description", "FileName", "FileType", "HardWorkers", "Header", "HoursOfSupport", "Project", "SocialMediaId", "UpdatedDate" },
                 values: new object[] { 1, 5, "06/10/2024", "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.", "test", "test", 3, "Lorem Ipsum is simply dummy text of the printing and typesetting industry", 150, 5, 1, null });
+
+            migrationBuilder.InsertData(
+                table: "AspNetUserClaims",
+                columns: new[] { "Id", "ClaimType", "ClaimValue", "Discriminator", "UserId" },
+                values: new object[] { 1, "AdminObserverExpireDate", "06/10/2023", "AppUserClaim", "e137111e-77b7-40f8-9318-099522ba68af" });
 
             migrationBuilder.InsertData(
                 table: "AspNetUserRoles",

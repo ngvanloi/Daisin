@@ -9,6 +9,13 @@ namespace Daisin.Controllers
 {
 	public class ErrorController : Controller
 	{
+		private readonly ILogger<ErrorController> _logger;
+
+		public ErrorController(ILogger<ErrorController> logger)
+		{
+			_logger = logger;
+		}
+
 		[Route("Error/GeneralExceptions")]
 		public IActionResult GeneralExceptions()
 		{
@@ -28,7 +35,7 @@ namespace Daisin.Controllers
 				return View(new ErrorVM("You have to delete all relevant data before to move on.", 401));
 			}
 
-
+			_logger.LogError("The Error Message From System : -----" + exceptions.Message + "-----");
 			return View(new ErrorVM("Server error, Please speak your admin", 401));
 		}
 

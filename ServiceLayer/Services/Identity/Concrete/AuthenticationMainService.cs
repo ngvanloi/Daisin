@@ -4,11 +4,6 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using ServiceLayer.Helpes.Identity.EmailHelper;
 using ServiceLayer.Services.Identity.Abstract;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ServiceLayer.Services.Identity.Concrete
 {
@@ -34,5 +29,5 @@ namespace ServiceLayer.Services.Identity.Concrete
 
 			await _email.SendResetPasswordLinkWithToken(passwordResetLink!, user.Email!);
 		}
-	}
+
 }

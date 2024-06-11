@@ -1,14 +1,8 @@
-﻿using AutoMapper;
-using EntityLayer.Identity.Entities;
-using EntityLayer.Identity.ViewModels;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using NToastNotify;
 using ServiceLayer.Messages.Identity;
-using System.Runtime.InteropServices;
-using System.Security.Claims;
+using ServiceLayer.Services.Identity.Abstract;
 
 namespace Daisin.Areas.Admin.Controllers
 {
@@ -17,42 +11,25 @@ namespace Daisin.Areas.Admin.Controllers
 	[Route("Admin/Admin")]
 	public class AdminController : Controller
 	{
-		private readonly UserManager<AppUser> _userManager;
-		private readonly IMapper _mapper;
+		private readonly IAuthenticationAdminService _authAdminService;
 		private readonly IToastNotification _toasty;
 
-		public AdminController(UserManager<AppUser> userManager, IMapper mapper, IToastNotification toasty)
+		public AdminController(IToastNotification toasty, IAuthenticationAdminService authAdminService)
 		{
-			_userManager = userManager;
-			_mapper = mapper;
 			_toasty = toasty;
+			_authAdminService = authAdminService;
 		}
 
 		[HttpGet("GetUserList")]
 		public async Task<IActionResult> GetUserList()
 		{
-			var userList = await _userManager.Users.ToListAsync();
-			var userListVM = _mapper.Map<List<UserVM>>(userList);
-			for (int i = 0; i < userList.Count; i++)
-			{
-				var userRoles = await _userManager.GetRolesAsync(userList[i]);
-				userListVM[i].UserRoles = userRoles;
-
-				var userClaims = await _userManager.GetClaimsAsync(userList[i]);
-				userListVM[i].UserClaims = userClaims;
-			}
+			var userListVM = await _authAdminService.GetUserListAsync();
 			return View(userListVM);
 		}
 
 		public async Task<IActionResult> ExtendClaim(string username)
 		{
-			var user = await _userManager.FindByNameAsync(username);
-			var claim = await _userManager.GetClaimsAsync(user!);
-			var existingClaim = claim.FirstOrDefault(x => x.Type.Contains("Observer"));
-
-			var newExtendClaim = new Claim("AdminObserverExpireDate", DateTime.Now.AddDays(5).ToString());
-
-			var renewClaim = await _userManager.ReplaceClaimAsync(user!, existingClaim!, newExtendClaim);
+			var renewClaim = await _authAdminService.ExtendClaimAsync(username);
 
 			if (!renewClaim.Succeeded)
 			{

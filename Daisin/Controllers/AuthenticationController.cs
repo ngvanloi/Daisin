@@ -6,7 +6,6 @@ using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using NToastNotify;
-using ServiceLayer.Helpes.Identity.EmailHelper;
 using ServiceLayer.Helpes.Identity.ModelStateHelper;
 using ServiceLayer.Messages.Identity;
 using ServiceLayer.Services.Identity.Abstract;
@@ -75,7 +74,7 @@ namespace Daisin.Controllers
 			if (logInResult.Succeeded)
 			{
 				_toasty.AddSuccessToastMessage(
-                    NotificationMessagesIdentity.SignUp(hasUser.UserName!),
+					NotificationMessagesIdentity.LogInSuccess,
 					new ToastrOptions { Title = NotificationMessagesIdentity.SuccessTitle }
 					);
 				return Redirect(returnUrl!);

@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ServiceLayer.Messages.Identity
+﻿namespace ServiceLayer.Messages.Identity
 {
 	public static class IdentityMessage
 	{
+		public const string SecurityStampError = "Your critical infomation has been changed. Please try to login again";
 		public static string CheckEmailAddress()
 		{
 			return "Email should be in email format";

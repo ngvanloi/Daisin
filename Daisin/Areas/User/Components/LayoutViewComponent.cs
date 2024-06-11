@@ -17,13 +17,13 @@ namespace Daisin.Areas.User.Components
             _userManager = userManager;
         }
 
-        public async Task<IViewComponentResult> InvokeAsync(string Username)
+        public async Task<IViewComponentResult> InvokeAsync(string Id)
         {
-            if(Username == null)
+            if(Id == null)
             {
-                Username = User.Identity!.Name!;
+                Id = UserClaimsPrincipal.Claims.FirstOrDefault(x => x.Type.Contains("identifier"))!.Value;
             }
-            var user = await _userManager.FindByNameAsync(Username);
+            var user = await _userManager.FindByIdAsync(Id);
 
             if (user == null || user.FileName == null)
             {

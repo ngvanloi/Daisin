@@ -50,11 +50,16 @@ namespace Daisin.Controllers
 		[HttpGet]
 		public IActionResult LogIn(string? errorMessage)
 		{
-			if (errorMessage != null)
+			if (errorMessage != null && errorMessage == IdentityMessage.SecurityStampError)
 			{
 				ViewBag.Result = "NotSucceed";
 				ModelState.AddModelErrorList(new List<string> { errorMessage });
 				return View();
+			}
+
+			if (errorMessage != null)
+			{
+				return RedirectToAction("/Error/PageNotFound");
 			}
 			return View();
 		}

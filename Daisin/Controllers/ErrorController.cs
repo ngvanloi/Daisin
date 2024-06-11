@@ -13,7 +13,7 @@ namespace Daisin.Controllers
 		public IActionResult GeneralExceptions()
 		{
 			var exceptions = HttpContext.Features.Get<IExceptionHandlerFeature>()!.Error;
-			if(exceptions is ClientSideExceptions)
+			if (exceptions is ClientSideExceptions)
 			{
 				return View(new ErrorVM(exceptions.Message, 401));
 			}
@@ -30,6 +30,11 @@ namespace Daisin.Controllers
 
 
 			return View(new ErrorVM("Server error, Please speak your admin", 401));
+		}
+
+		public IActionResult PageNotFound()
+		{
+			return View();
 		}
 	}
 }

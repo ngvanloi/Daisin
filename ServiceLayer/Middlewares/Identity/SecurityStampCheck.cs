@@ -1,6 +1,7 @@
 ﻿using EntityLayer.Identity.Entities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
+using ServiceLayer.Messages.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -33,7 +34,7 @@ namespace ServiceLayer.Middlewares.Identity
 				if (ssCookie != user!.SecurityStamp)
 				{
 					context.Response.Cookies.Delete("DaisinCompany");
-					context.Response.Redirect("/Authentication/LogIn?errorMessage=Your critical infomation has been changed. Please try to login again");
+					context.Response.Redirect($"/Authentication/LogIn?errorMessage={IdentityMessage.SecurityStampError}");
 				}
 			}
 			await _next(context);

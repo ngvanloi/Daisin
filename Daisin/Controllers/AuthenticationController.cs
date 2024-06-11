@@ -9,6 +9,7 @@ using NToastNotify;
 using ServiceLayer.Helpes.Identity.ModelStateHelper;
 using ServiceLayer.Messages.Identity;
 using ServiceLayer.Services.Identity.Abstract;
+using System.Security.Claims;
 
 namespace Daisin.Controllers
 {
@@ -116,6 +117,26 @@ namespace Daisin.Controllers
 				ModelState.AddModelErrorList(userCreateResult.Errors);
 				return View();
 			}
+
+			var assignRoleResult = await _userManager.AddToRoleAsync(user, "Member");
+			if (!assignRoleResult.Succeeded)
+			{
+				await _userManager.DeleteAsync(user);
+				ViewBag.Result = "NotSucceed";
+				ModelState.AddModelErrorList(userCreateResult.Errors);
+				return View();
+			}
+			var defaultClaim = new Claim("AdminObserverExpireDate", DateTime.Now.AddDays(-1).ToString());
+			var addClaimResult = await _userManager.AddClaimAsync(user, defaultClaim);
+			if (!addClaimResult.Succeeded)
+			{
+				await _userManager.RemoveFromRoleAsync(user, "Member");
+				await _userManager.DeleteAsync(user);
+				ViewBag.Result = "NotSucceed";
+				ModelState.AddModelErrorList(userCreateResult.Errors);
+				return View();
+			}
+
 			_toasty.AddSuccessToastMessage(NotificationMessagesIdentity.SignUp(user.UserName!), new ToastrOptions { Title = NotificationMessagesIdentity.SuccessTitle });
 			return RedirectToAction("Login", "Authentication");
 		}

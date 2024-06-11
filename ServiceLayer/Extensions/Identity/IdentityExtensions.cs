@@ -1,5 +1,6 @@
 ﻿using EntityLayer.Identity.Entities;
 using EntityLayer.Identity.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
@@ -8,15 +9,11 @@ using RepositoryLayer.Context;
 using ServiceLayer.Customization.Identity.ErrorDescriber;
 using ServiceLayer.Customization.Identity.Validators;
 using ServiceLayer.Helpes.Identity.EmailHelper;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using ServiceLayer.Requirement;
 
 namespace ServiceLayer.Extensions.Identity
 {
-	public static class IdentityExtensions
+    public static class IdentityExtensions
 	{
 		public static IServiceCollection LoadIdentityExtensions(this IServiceCollection services, IConfiguration config)
 		{
@@ -28,6 +25,7 @@ namespace ServiceLayer.Extensions.Identity
 				opt.Password.RequiredUniqueChars = 2;
 				opt.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromSeconds(30);
 				opt.Lockout.MaxFailedAccessAttempts = 3;
+				opt.User.RequireUniqueEmail = true;
 			})
 				.AddRoleManager<RoleManager<AppRole>>()
 				.AddEntityFrameworkStores<AppDbContext>()
@@ -49,11 +47,21 @@ namespace ServiceLayer.Extensions.Identity
 
 			services.Configure<DataProtectionTokenProviderOptions>(opt =>
 			{
-				opt.TokenLifespan = TimeSpan.FromMinutes(60);
+				opt.TokenLifespan = TimeSpan.FromSeconds(20);
 			});
 			services.AddScoped<IEmailSendMethod, EmailSendMethod>();
 			services.Configure<GmailInfomationVM>(config.GetSection("EmailSettings"));
-			return services;
+
+            services.AddScoped<IAuthorizationHandler, AdminObserverRequirementHandler>();
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("AdminObserver", policy =>
+                {
+                    policy.AddRequirements(new AdminObserverRequirement());
+                });
+            });
+
+            return services;
 		}
 	}
 }

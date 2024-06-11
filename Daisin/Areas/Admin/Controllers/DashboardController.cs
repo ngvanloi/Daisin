@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Daisin.Areas.Admin.Controllers
 {
-	[Authorize(Roles = "SuperAdmin")]
+	[Authorize(Policy = "AdminObserver")]
 	[Area("Admin")]
 	[Route("Admin/Dashboard")]
 	public class DashboardController : Controller

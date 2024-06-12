@@ -113,5 +113,12 @@ namespace ServiceLayer.Services.WebApplication.Concrete
 
             return about;
         }
-    }
+
+		//UI Service Methods
+		public async Task<List<AboutUI>> GetAllListForUI()
+		{
+			var uiList = await _repo.GetAll().ProjectTo<AboutUI>(_mapper.ConfigurationProvider).ToListAsync();
+			return uiList;
+		}
+	}
 }

@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
-using Microsoft.EntityFrameworkCore;
 using ServiceLayer.Exceptions.WebApplication;
 
 namespace Daisin.Controllers
@@ -36,6 +35,7 @@ namespace Daisin.Controllers
 			}
 
 			_logger.LogError("The Error Message From System : -----" + exceptions.Message + "-----");
+			Console.WriteLine(exceptions.Message);
 			return View(new ErrorVM("Server error, Please speak your admin", 401));
 		}
 

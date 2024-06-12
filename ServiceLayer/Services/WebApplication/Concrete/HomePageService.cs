@@ -9,15 +9,10 @@ using RepositoryLayer.UnitOfWorks.Abstract;
 using ServiceLayer.Exceptions.WebApplication;
 using ServiceLayer.Messages.WebApplication;
 using ServiceLayer.Services.WebApplication.Abstract;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ServiceLayer.Services.WebApplication.Concrete
 {
-    public class HomePageService : IHomePageService
+	public class HomePageService : IHomePageService
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
@@ -78,5 +73,13 @@ namespace ServiceLayer.Services.WebApplication.Concrete
 
             return homePage;
         }
-    }
+
+		//UI Service Methods
+
+		public async Task<List<HomePageUI>> GetAllListForUI()
+		{
+			var uiList = await _repo.GetAll().ProjectTo<HomePageUI>(_mapper.ConfigurationProvider).ToListAsync();
+			return uiList;
+		}
+	}
 }

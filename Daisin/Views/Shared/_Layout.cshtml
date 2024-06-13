@@ -44,13 +44,14 @@
 					<li><a class="nav-link scrollto" href="#socialmedia">Social Media</a></li>
 					<li><a class="nav-link scrollto" href="#category">Category</a></li>
 					<li><a class="nav-link scrollto" href="#contact">Contact</a></li>
+					<li><a class="getstarted scrollto" asp-controller="Authentication" asp-action="LogIn">Login</a></li>
 				</ul>
 				<i class="bi bi-list mobile-nav-toggle"></i>
 			</nav>
 
 		</div>
 	</header>
-	@await Component.InvokeAsync("HomePage");
+	@await Component.InvokeAsync("HomePage")
 
 
 	<main id="main">
@@ -92,7 +93,7 @@
 
 		<div class="container footer-bottom clearfix">
 			<div class="copyright">
-				&copy; Copyright <strong><span>eNno</span></strong>. All Rights Reserved
+				&copy; Copyright <strong><span>Daisin</span></strong>. All Rights Reserved
 			</div>
 		</div>
 	</footer>

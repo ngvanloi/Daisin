@@ -9,15 +9,10 @@ using RepositoryLayer.UnitOfWorks.Abstract;
 using ServiceLayer.Exceptions.WebApplication;
 using ServiceLayer.Messages.WebApplication;
 using ServiceLayer.Services.WebApplication.Abstract;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ServiceLayer.Services.WebApplication.Concrete
 {
-    public class SocialMediaService : ISocialMediaService
+	public class SocialMediaService : ISocialMediaService
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
@@ -77,5 +72,12 @@ namespace ServiceLayer.Services.WebApplication.Concrete
 
             return socialMedia;
         }
-    }
+
+		//UI Service Methods
+		public async Task<List<SocialMediaUI>> GetAllListForUI()
+		{
+			var uiList = await _repo.GetAll().ProjectTo<SocialMediaUI>(_mapper.ConfigurationProvider).ToListAsync();
+			return uiList;
+		}
+	}
 }

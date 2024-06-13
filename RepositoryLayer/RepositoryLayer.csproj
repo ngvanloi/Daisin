@@ -7,12 +7,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="UnitOfWork\**" />
+    <EmbeddedResource Remove="UnitOfWork\**" />
+    <None Remove="UnitOfWork\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\EntityLayer\EntityLayer.csproj" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="DataSeed\" />
-    <Folder Include="UnitOfWork\" />
     <Folder Include="Repositories\" />
   </ItemGroup>
 

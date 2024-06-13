@@ -11,15 +11,10 @@ using ServiceLayer.Exceptions.WebApplication;
 using ServiceLayer.Helpes.Identity.Image;
 using ServiceLayer.Messages.WebApplication;
 using ServiceLayer.Services.WebApplication.Abstract;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ServiceLayer.Services.WebApplication.Concrete
 {
-    public class PortfolioService : IPortfolioService
+	public class PortfolioService : IPortfolioService
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
@@ -114,5 +109,12 @@ namespace ServiceLayer.Services.WebApplication.Concrete
 
             return portfolio;
         }
-    }
+
+		//UI Service Methods
+		public async Task<List<PortfolioUI>> GetAllListForUI()
+		{
+			var uiList = await _repo.GetAll().ProjectTo<PortfolioUI>(_mapper.ConfigurationProvider).ToListAsync();
+			return uiList;
+		}
+	}
 }

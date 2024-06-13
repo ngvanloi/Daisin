@@ -1,8 +1,6 @@
-﻿using CoreLayer.BaseEntities;
-
-namespace EntityLayer.WebApplication.Entities
+﻿namespace EntityLayer.WebApplication.ViewModels.ContactVM
 {
-	public class Contact :BaseEntity
+	public class ContactUI
 	{
 		public string Location { get; set; } = null!;
 		public string Email { get; set; } = null!;

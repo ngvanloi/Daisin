@@ -2,6 +2,7 @@
 using AutoMapper.QueryableExtensions;
 using EntityLayer.WebApplication.Entities;
 using EntityLayer.WebApplication.ViewModels.CategoryVM;
+using EntityLayer.WebApplication.ViewModels.CategoryVM;
 using Microsoft.EntityFrameworkCore;
 using NToastNotify;
 using RepositoryLayer.Repositories.Abstract;
@@ -9,15 +10,10 @@ using RepositoryLayer.UnitOfWorks.Abstract;
 using ServiceLayer.Exceptions.WebApplication;
 using ServiceLayer.Messages.WebApplication;
 using ServiceLayer.Services.WebApplication.Abstract;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ServiceLayer.Services.WebApplication.Concrete
 {
-    public class CategoryService : ICategoryService
+	public class CategoryService : ICategoryService
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
@@ -78,5 +74,12 @@ namespace ServiceLayer.Services.WebApplication.Concrete
 
             return category;
         }
-    }
+
+		//UI Service Methods
+		public async Task<List<CategoryUI>> GetAllListForUI()
+		{
+			var uiList = await _repo.GetAll().ProjectTo<CategoryUI>(_mapper.ConfigurationProvider).ToListAsync();
+			return uiList;
+		}
+	}
 }

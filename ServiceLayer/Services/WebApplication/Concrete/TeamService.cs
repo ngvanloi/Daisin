@@ -11,15 +11,10 @@ using ServiceLayer.Exceptions.WebApplication;
 using ServiceLayer.Helpes.Identity.Image;
 using ServiceLayer.Messages.WebApplication;
 using ServiceLayer.Services.WebApplication.Abstract;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ServiceLayer.Services.WebApplication.Concrete
 {
-    public class TeamService : ITeamService
+	public class TeamService : ITeamService
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
@@ -111,5 +106,12 @@ namespace ServiceLayer.Services.WebApplication.Concrete
 
             return team;
         }
-    }
+
+		//UI Service Methods
+		public async Task<List<TeamUI>> GetAllListForUI()
+		{
+			var uiList = await _repo.GetAll().ProjectTo<TeamUI>(_mapper.ConfigurationProvider).ToListAsync();
+			return uiList;
+		}
+	}
 }

@@ -1,8 +1,6 @@
-﻿using CoreLayer.BaseEntities;
-
-namespace EntityLayer.WebApplication.Entities
+﻿namespace EntityLayer.WebApplication.ViewModels.ServiceVM
 {
-	public class Service : BaseEntity
+	public class ServiceUI
 	{
 		public string Name { get; set; } = null!;
 		public string Description { get; set; } = null!;

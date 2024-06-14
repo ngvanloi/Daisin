@@ -4,6 +4,7 @@ using FluentValidation;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using ServiceLayer.Filters.WebApplication;
 using ServiceLayer.Services.WebApplication.Abstract;
 
@@ -15,14 +16,16 @@ namespace Daisin.Areas.Admin.Controllers
 	public class PortfolioController : Controller
 	{
 		private readonly IPortfolioService _portfolioService;
+		private readonly ICategoryService _categoryService;
 		private readonly IValidator<PortfolioAddVM> _addValidator;
 		private readonly IValidator<PortfolioUpdateVM> _updateValidator;
 
-		public PortfolioController(IPortfolioService portfolioService, IValidator<PortfolioAddVM> addValidator, IValidator<PortfolioUpdateVM> updateValidator)
+		public PortfolioController(IPortfolioService portfolioService, IValidator<PortfolioAddVM> addValidator, IValidator<PortfolioUpdateVM> updateValidator, ICategoryService categoryService)
 		{
 			_portfolioService = portfolioService;
 			_addValidator = addValidator;
 			_updateValidator = updateValidator;
+			_categoryService = categoryService;
 		}
 		[HttpGet("GetPortfolioList")]
 		public async Task<IActionResult> GetPortfolioList()
@@ -32,8 +35,15 @@ namespace Daisin.Areas.Admin.Controllers
 		}
 
 		[HttpGet("AddPortfolio")]
-		public IActionResult AddPortfolio()
+		public async Task<IActionResult> AddPortfolio()
 		{
+			var categories = await _categoryService.GetAllAsync();
+			var categoryList = new List<SelectListItem>();
+			foreach (var item in categories)
+			{
+				categoryList.Add(new SelectListItem { Value = item.Id.ToString(), Text = item.Name });
+			}
+			ViewBag.Categories = categoryList;
 			return View();
 		}
 		[HttpPost("AddPortfolio")]
@@ -55,6 +65,13 @@ namespace Daisin.Areas.Admin.Controllers
 		{
 
 			var portfolio = await _portfolioService.GetPortfolioById(id);
+			var categories = await _categoryService.GetAllAsync();
+			var categoryList = new List<SelectListItem>();
+			foreach (var item in categories)
+			{
+				categoryList.Add(new SelectListItem { Value = item.Id.ToString(), Text = item.Name });
+			}
+			ViewBag.Categories = categoryList;
 			return View(portfolio);
 		}
 		[HttpPost("UpdatePortfolio")]

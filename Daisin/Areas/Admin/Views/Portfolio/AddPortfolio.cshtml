@@ -30,9 +30,10 @@
 
 			<div class="col-md-12">
 				<div class="form-floating">
-					<input asp-for="Category.Name" type="text" class="form-control" placeholder="Your Category Name">
-					<label asp-for="Category.Name">Category Name</label>
-					<span asp-validation-for="Category.Name" class="text-danger"></span>
+					<select asp-for="CategoryId" asp-items="ViewBag.Categories" class="form-select" aria-label="Category Name">
+						<option selected>Category Name</option>
+					</select>
+					<input type="hidden" asp-for="CategoryId" value="" />
 				</div>
 			</div>
 

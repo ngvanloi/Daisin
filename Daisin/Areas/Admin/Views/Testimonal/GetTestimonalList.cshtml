@@ -1,15 +1,15 @@
 ﻿@model List<TestimonalListVM>;
 @{
-    ViewData["Title"] = "GetTestimonalList";
+    ViewData["Title"] = "GetTestimonialList";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
 
-<h5 class="card-title">Testimonal</h5>
+<h5 class="card-title">Testimonial</h5>
 
 <nav>
 	<ol class="breadcrumb">
 		<li class="breadcrumb-item"><a asp-area="Admin" asp-category="Dashboard" asp-action="Index">Dashboard</a></li>
-		<li class="breadcrumb-item active">Testimonals</li>
+		<li class="breadcrumb-item active">Testimonials</li>
 	</ol>
 </nav>
 
@@ -55,6 +55,6 @@
 	</div>
 </div>
 <a asp-area="Admin" asp-controller="Testimonal" asp-action="AddTestimonal" class="btn btn-success btn-sm">
-	Add Testimonal
+	Add Testimonial
 </a>
 

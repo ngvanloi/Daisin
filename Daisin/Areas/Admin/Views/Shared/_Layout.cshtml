@@ -10,8 +10,8 @@
     <meta content="Daisin" name="keywords">
 
     <!-- Favicons -->
-    <link href="~/Admin/assets/img/favicon.png" rel="icon">
-    <link href="~/Admin/assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+    <link href="~/images/favicon.png" rel="icon">">
+    <link href="~/images/apple-touch-icon.png" rel="apple-touch-icon">
 
     <!-- Google Fonts -->
     <link href="https://fonts.gstatic.com" rel="preconnect">
@@ -35,8 +35,8 @@
     <header id="header" class="header fixed-top d-flex align-items-center">
 
         <div class="d-flex align-items-center justify-content-between">
-            <a href="index.html" class="logo d-flex align-items-center">
-                <img src="~/Admin/assets/img/logo.png" alt="Daisin logo">
+            <a asp-area="Admin" asp-controller="Dashboard" asp-action="Index" class="logo d-flex align-items-center">
+                <img src="~/images/logo.png" alt="Daisin logo">
                 <span class="d-none d-lg-block">@User.Identity!.Name</span>
             </a>
             <i class="bi bi-list toggle-sidebar-btn"></i>
@@ -89,7 +89,7 @@
             <li class="nav-item">
                 <a class="nav-link" asp-area="Admin" asp-controller="Testimonal" asp-action="GetTestimonalList">
                     <i class="bi bi-chat-right-dots"></i>
-                    <span>Testimonals</span>
+                    <span>Testimonials</span>
                 </a>
             </li>
             <li class="nav-item">

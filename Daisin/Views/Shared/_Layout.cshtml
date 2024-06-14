@@ -42,7 +42,10 @@
 					<li><a class="nav-link scrollto" href="#testimonials">Testimonial</a></li>
 					<li><a class="nav-link scrollto" href="#team">Team</a></li>
 					<li><a class="nav-link scrollto" href="#contact">Contact</a></li>
-					<li><a class="getstarted scrollto" asp-controller="Authentication" asp-action="LogIn">Login</a></li>
+					@if (!User.Identity.IsAuthenticated)
+					{
+						<li><a class="getstarted scrollto" asp-controller="Authentication" asp-action="LogIn">Login</a></li>
+					}
 				</ul>
 				<i class="bi bi-list mobile-nav-toggle"></i>
 			</nav>
